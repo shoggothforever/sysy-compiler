@@ -1,0 +1,95 @@
+%option noyywrap
+%option yylineno
+
+%{
+#include<stdio.h>
+#include"sysy.tab.hpp"
+#include<iostream>
+using namespace std;
+extern char* yytext;
+#define RETURN_TOKEN(name) printf("%s:<%s,%d>\n",yytext,#name,name);return name;
+%}
+
+%option nounput
+%option noinput
+
+LETDIG [a-zA-Z0-9]
+HEX_PREFIX          0x|0X
+HEX_DIGIT           [0-9a-fA-F]
+HEX_CONST           {HEX_PREFIX}{HEX_DIGIT}+
+OCTAL_DIGIT         [0-7]
+OCTAL_CONST         0{OCTAL_DIGIT}*
+ILLEGAL_HEX_CONST   {HEX_PREFIX}{HEX_DIGIT}*[g-zG-Z]+{LETDIG}*
+ILLEGAL_OCTAL_CONST {OCTAL_CONST}([a-zA-Z]|[8-9])+{LETDIG}*
+
+intnum [1-9][0-9]*|0[0-7]*|(0x|0X)[0-9a-fA-F]*
+LETTER [a-zA-Z]
+
+DIGIT            [0-9]+
+
+DOT     \.
+floatnum [0-9]+[Ee][0-9]+|[\-]?{DIGIT}+{DOT}{DIGIT}+
+id [a-zA-Z_][a-zA-Z0-9]*
+
+
+%s COMMENT
+%s LINECOMMENT
+
+%%
+"/*" {BEGIN(COMMENT);}
+<COMMENT>"*/" {BEGIN(INITIAL);}
+<COMMENT>([^*]|\n)+|.
+<COMMENT><<EOF>> {return 0;}
+"//" {BEGIN(LINECOMMENT);}
+<LINECOMMENT>.*
+<LINECOMMENT>\n {BEGIN(INITIAL);}
+<LINECOMMENT><<EOF>> {BEGIN(INITIAL);}
+
+[ \t]   {;}
+\n  {}
+"int" RETURN_TOKEN(INT);
+"float" RETURN_TOKEN(FLOAT);
+"const" RETURN_TOKEN(CONST);
+"void" RETURN_TOKEN(VOID);
+"break" RETURN_TOKEN(BREAK);
+"continue" RETURN_TOKEN(CONTINUE);
+"return"    RETURN_TOKEN(RETURN);
+"if"        RETURN_TOKEN(IF);
+"else"      RETURN_TOKEN(ELSE);
+"while"     RETURN_TOKEN(WHILE);
+"for"       RETURN_TOKEN(FOR);
+{ILLEGAL_HEX_CONST} RETURN_TOKEN(ILLEGAL_HEX_CONST);
+{ILLEGAL_OCTAL_CONST} RETURN_TOKEN(ILLEGAL_OCTAL_CONST);
+{intnum} RETURN_TOKEN(INTNUM);
+{floatnum}  RETURN_TOKEN(FLOATNUM);
+
+"<"         RETURN_TOKEN(LT);
+"<="        RETURN_TOKEN(LE);
+">"         RETURN_TOKEN(GT);
+">="        RETURN_TOKEN(GE);
+"=="        RETURN_TOKEN(EQ);
+"!="        RETURN_TOKEN(NE);
+"="         RETURN_TOKEN(ASSIGN);
+"+"         RETURN_TOKEN(ADD);
+"-"         RETURN_TOKEN(SUB);
+"*"         RETURN_TOKEN(MUL);
+"/"         RETURN_TOKEN(DIV);
+"%"         RETURN_TOKEN(MOD);
+"!"         RETURN_TOKEN(NOT);
+"&&"        RETURN_TOKEN(AND);
+"||"        RETURN_TOKEN(OR);
+";"         RETURN_TOKEN(SEMI);
+":"         RETURN_TOKEN(COLON);
+","         RETURN_TOKEN(COMMA);
+"("         RETURN_TOKEN(L);
+")"         RETURN_TOKEN(R);
+"{"         RETURN_TOKEN(OB);
+"}"         RETURN_TOKEN(CB);
+"["         RETURN_TOKEN(LB);
+"]"         RETURN_TOKEN(RB);
+{id}        RETURN_TOKEN(Ident);
+
+\"[^"]*\"                               RETURN_TOKEN(SSS);
+'[^']*\'                                RETURN_TOKEN(SSS);
+.                                       printf("Invalid character [%c] at line: %d \n",yytext[0],yylineno);
+%%

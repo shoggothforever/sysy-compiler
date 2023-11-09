@@ -1,0 +1,14 @@
+OBJS=lex.yy.o sysy.tab.o
+CC=gcc
+CFLAGS=-Wall -g
+NAME="parser"
+CLEAN_LIST=lex.yy.o sysy.tab.o lex.yy.c sysy.tab.h sysy.tab.c
+$(NAME): $(OBJS)
+	$(CC) $^ -lfl -o $(NAME)
+
+sysy.tab.c sysy.tab.h: sysy.y
+	bison -d $<
+lex.yy.c: sysy.l sysy.tab.h
+	flex $<
+clean:
+	rm -f $(CLEAN_LIST) $(NAME)
