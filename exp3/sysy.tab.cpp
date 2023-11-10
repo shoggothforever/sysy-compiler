@@ -77,12 +77,12 @@
     #include<vector>
     #include<string>
     using namespace std;
-    #define YYDEBUG 1        //开启debug
-    int yylex();			//调用词法分析器，每次返回一个TOKEN
+    #define YYDEBUG 1
+    int yylex();
     void yyerror(const char* msg)
     {
-        // printf("Error type [%s] \n",msg);
-        // printf("Error type [%s] at line [%d] : %s\n", yylineno,msg);
+        printf("Error type [%s] \n",msg);
+
     }
     extern int yylineno;
     extern char* yytext;
@@ -604,10 +604,10 @@ static const yytype_int16 yyrline[] =
      152,   153,   156,   157,   158,   159,   162,   163,   166,   167,
      169,   170,   173,   174,   177,   178,   179,   180,   181,   182,
      183,   184,   185,   186,   187,   190,   191,   194,   197,   198,
-     200,   201,   203,   206,   209,   244,   248,   249,   250,   252,
-     253,   254,   255,   257,   258,   259,   260,   260,   262,   263,
-     264,   265,   267,   268,   269,   272,   273,   274,   275,   276,
-     279,   280,   281,   284,   285,   288,   289,   292,   295,   296
+     200,   201,   203,   206,   210,   245,   249,   250,   251,   253,
+     254,   255,   256,   258,   259,   260,   261,   261,   263,   264,
+     265,   266,   268,   269,   270,   273,   274,   275,   276,   277,
+     280,   281,   282,   285,   286,   289,   290,   293,   296,   297
 };
 #endif
 
@@ -1550,7 +1550,7 @@ yyreduce:
 
   case 32: /* ArrayDef: "[" error "]"  */
 #line 140 "sysy.y"
-                       {printf("invalid Arraydef: need argument in []\n");}
+                       {printf("Error type [%s] at line [%d] : invalid Arraydef: need arguments in []\n","ArrayDefine",yylineno);}
 #line 1555 "sysy.tab.cpp"
     break;
 
@@ -1631,7 +1631,7 @@ yyreduce:
     break;
 
   case 74: /* Number: INTNUM  */
-#line 209 "sysy.y"
+#line 210 "sysy.y"
                 {
                 (yyval.const_String_Val)=yytext;
                 cout<<"GET INTNUM: "<< yytext <<endl;
@@ -1670,79 +1670,79 @@ yyreduce:
     break;
 
   case 76: /* PrimaryExp: "(" Exp ")"  */
-#line 248 "sysy.y"
+#line 249 "sysy.y"
                         {}
 #line 1676 "sysy.tab.cpp"
     break;
 
   case 77: /* PrimaryExp: LVal  */
-#line 249 "sysy.y"
+#line 250 "sysy.y"
                          {}
 #line 1682 "sysy.tab.cpp"
     break;
 
   case 78: /* PrimaryExp: Number  */
-#line 250 "sysy.y"
+#line 251 "sysy.y"
                          {}
 #line 1688 "sysy.tab.cpp"
     break;
 
   case 79: /* UnaryExp: PrimaryExp  */
-#line 252 "sysy.y"
+#line 253 "sysy.y"
                    {}
 #line 1694 "sysy.tab.cpp"
     break;
 
   case 88: /* MulExp: UnaryExp  */
-#line 262 "sysy.y"
+#line 263 "sysy.y"
                  {}
 #line 1700 "sysy.tab.cpp"
     break;
 
   case 92: /* AddExp: MulExp  */
-#line 267 "sysy.y"
+#line 268 "sysy.y"
                {}
 #line 1706 "sysy.tab.cpp"
     break;
 
   case 95: /* RelExp: AddExp  */
-#line 272 "sysy.y"
+#line 273 "sysy.y"
                {}
 #line 1712 "sysy.tab.cpp"
     break;
 
   case 100: /* EqExp: RelExp  */
-#line 279 "sysy.y"
+#line 280 "sysy.y"
                {}
 #line 1718 "sysy.tab.cpp"
     break;
 
   case 103: /* LAndExp: EqExp  */
-#line 284 "sysy.y"
+#line 285 "sysy.y"
               {}
 #line 1724 "sysy.tab.cpp"
     break;
 
   case 105: /* LOrExp: LAndExp  */
-#line 288 "sysy.y"
+#line 289 "sysy.y"
                 {}
 #line 1730 "sysy.tab.cpp"
     break;
 
   case 107: /* StrExp: SSS  */
-#line 292 "sysy.y"
+#line 293 "sysy.y"
        {}
 #line 1736 "sysy.tab.cpp"
     break;
 
   case 108: /* ConstExp: AddExp  */
-#line 295 "sysy.y"
+#line 296 "sysy.y"
                {}
 #line 1742 "sysy.tab.cpp"
     break;
 
   case 109: /* ConstExp: StrExp  */
-#line 296 "sysy.y"
+#line 297 "sysy.y"
                {}
 #line 1748 "sysy.tab.cpp"
     break;
@@ -1946,7 +1946,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 299 "sysy.y"
+#line 300 "sysy.y"
 
 int main(int argc, char** argv){
     extern FILE* yyin;

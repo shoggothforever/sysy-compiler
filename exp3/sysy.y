@@ -9,12 +9,12 @@
     #include<vector>
     #include<string>
     using namespace std;
-    #define YYDEBUG 1        //开启debug
-    int yylex();			//调用词法分析器，每次返回一个TOKEN
+    #define YYDEBUG 1
+    int yylex();
     void yyerror(const char* msg)
     {
-        // printf("Error type [%s] \n",msg);
-        // printf("Error type [%s] at line [%d] : %s\n", yylineno,msg);
+        printf("Error type [%s] \n",msg);
+
     }
     extern int yylineno;
     extern char* yytext;
@@ -137,7 +137,7 @@ VarDef : Ident {}
 ArrayDef:
         "[" ConstExp "]"
         | ArrayDef "[" ConstExp "]"
-        |"[" error "]" {printf("invalid Arraydef: need argument in []\n");}
+        |"[" error "]" {printf("Error type [%s] at line [%d] : invalid Arraydef: need arguments in []\n","ArrayDefine",yylineno);}
 ;
 InitVal : Exp | "{" "}"
         | "{" InitValGroup "}"
@@ -206,6 +206,7 @@ Number :
         | ILLEGAL_OCTAL_CONST{
                 printf("Error type [%s] at line [%d] : Illegal octal number %s\n","Number" ,yylineno,yytext);
         }
+
         |INTNUM {
                 $$=yytext;
                 cout<<"GET INTNUM: "<< yytext <<endl;

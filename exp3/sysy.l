@@ -1,6 +1,3 @@
-%option noyywrap
-%option yylineno
-
 %{
 #include<stdio.h>
 #include"sysy.tab.hpp"
@@ -9,7 +6,8 @@ using namespace std;
 extern char* yytext;
 #define RETURN_TOKEN(name) printf("%s:<%s,%d>\n",yytext,#name,name);return name;
 %}
-
+%option noyywrap
+%option yylineno
 %option nounput
 %option noinput
 
@@ -18,9 +16,9 @@ HEX_PREFIX          0x|0X
 HEX_DIGIT           [0-9a-fA-F]
 HEX_CONST           {HEX_PREFIX}{HEX_DIGIT}+
 OCTAL_DIGIT         [0-7]
-OCTAL_CONST         0{OCTAL_DIGIT}*
+OCTAL_CONST         0[^xX]?{OCTAL_DIGIT}*
 ILLEGAL_HEX_CONST   {HEX_PREFIX}{HEX_DIGIT}*[g-zG-Z]+{LETDIG}*
-ILLEGAL_OCTAL_CONST {OCTAL_CONST}([a-zA-Z]|[8-9])+{LETDIG}*
+ILLEGAL_OCTAL_CONST  0([0-7]?([a-zA-Z]|[8-9])+[a-zA-Z0-9]*)|0[^xX0-7;][a-zA-Z0-9]*
 
 intnum [1-9][0-9]*|0[0-7]*|(0x|0X)[0-9a-fA-F]*
 LETTER [a-zA-Z]
@@ -58,8 +56,14 @@ id [a-zA-Z_][a-zA-Z0-9]*
 "else"      RETURN_TOKEN(ELSE);
 "while"     RETURN_TOKEN(WHILE);
 "for"       RETURN_TOKEN(FOR);
-{ILLEGAL_HEX_CONST} RETURN_TOKEN(ILLEGAL_HEX_CONST);
-{ILLEGAL_OCTAL_CONST} RETURN_TOKEN(ILLEGAL_OCTAL_CONST);
+{ILLEGAL_HEX_CONST} {
+    RETURN_TOKEN(ILLEGAL_HEX_CONST);
+}
+{ILLEGAL_OCTAL_CONST} {
+    if(strlen(yytext)>2&&yytext[1]=='x'||yytext[1]=='X'){
+        RETURN_TOKEN (INTNUM);
+    }
+    RETURN_TOKEN(ILLEGAL_OCTAL_CONST);}
 {intnum} RETURN_TOKEN(INTNUM);
 {floatnum}  RETURN_TOKEN(FLOATNUM);
 
@@ -91,5 +95,5 @@ id [a-zA-Z_][a-zA-Z0-9]*
 
 \"[^"]*\"                               RETURN_TOKEN(SSS);
 '[^']*\'                                RETURN_TOKEN(SSS);
-.                                       printf("Invalid character [%c] at line: %d \n",yytext[0],yylineno);
+.                                       printf("Error type [character] at line [%d] :Invalid character %c \n",yylineno,yytext[0]);
 %%
