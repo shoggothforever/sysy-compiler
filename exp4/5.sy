@@ -1,0 +1,17 @@
+//测试返回表达式
+int a,b,c,d,e;
+int f(){
+    a=a+1;
+    b=b+1;
+    c=c+1;
+    d=d+1;
+    e=e+1;
+    return (a*b-(c+d)/e);
+}
+int main(){
+    while(f()!=f()){
+        int a=f();
+        int b=f();
+        if(a==b)return (a);
+    }
+}
