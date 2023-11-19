@@ -13,13 +13,16 @@
     using namespace std;
     #define YYDEBUG 1
     int yylex();
+//  void yyerror(const char* msg){printf("Error type [%s] \n",msg);}
 
-//     void yyerror(const char* msg){printf("Error type [%s] \n",msg);}
-    int yyerror(astTree* node, const char*msg){return 0;}
     extern int yylineno;
     extern char* yytext;
     extern FILE* yyin;
-
+    int yyerror(astTree* tree, const char*msg){
+        // tree->print();
+        // fprintf(stderr, "Error type B at Line %d, %s ,cause: %s\n", yylineno, msg,rc_string(tree->rc).c_str());
+        return 1;
+    }
     /* Pass the argument to yyparse through to yylex. */
     #define YYPARSE_PARAM scanner
     #define YYLEX_PARAM   scanner
@@ -188,6 +191,8 @@ ConstInitValGroup: ConstInitVal  {COUT(ConstInitValGroup);}
                 | ConstInitValGroup "," ConstInitVal {COUT(ConstInitValGroup);}
 ;
 VarDecl : BType VarDefGroup ";" {$$=NewAst("VarDecl",yylineno,3,$1,$2,$3);}
+        // | error_recovery
+        | BType VarDefGroup error{yyclearin; fprintf(stderr,"Error type B [%s] at line [%d]\n",rc_string(RC::MissingSemi).c_str(),yylineno);}
 ;
 VarDefGroup: VarDef {$$=NewAst("VarDefGroup",yylineno,1,$1);}
             | VarDefGroup "," VarDef {$$=NewAst("VarDefGroup",yylineno,3,$1,$2,$3);}
@@ -200,7 +205,10 @@ VarDef : Ident {$$=NewAst("VarDef",yylineno,1,$1);}
 ArrayDef:
         "[" ConstExp "]" {$$=NewAst("ArrayDef",yylineno,3,$1,$2,$3);}
         | ArrayDef "[" ConstExp "]" {$$=NewAst("ArrayDef",yylineno,4,$1,$2,$3,$4);}
-        |"[" error "]" {printf("Error type [%s] at line [%d] : invalid Arraydef: need arguments in []\n","ArrayDefine",yylineno);}
+        |"[" error "]" {
+                fprintf(stderr,"Error type B [%s] at line [%d] : need arguments in []\n",rc_string(RC::InvalidArrayDef).c_str(),yylineno);
+                return 1;
+        }
 ;
 InitVal : Exp {$$=NewAst("InitVal",yylineno,1,$1);}
         | "{" "}"  {$$=NewAst("InitVal",yylineno,2,$1,$2);}
@@ -267,16 +275,24 @@ BlockItem :
 ;
 Stmt :
     LVal "=" Exp ";" {$$=NewAst("Stmt",yylineno,3,$1,$2,$3);}
+    | LVal "=" Exp error { yyclearin;fprintf(stderr,"Error type B [%s] at line [%d]\n",rc_string(RC::MissingSemi).c_str(),yylineno);}
 	| ";"  {$$=NewAst("Stmt",yylineno,1,$1);}
+        | error { yyclearin;fprintf(stderr,"Error type B [%s] at line [%d]\n",rc_string(RC::MissingSemi).c_str(),yylineno);}
 	| Exp ";"{$$=NewAst("Stmt",yylineno,2,$1,$2);}
+        | Exp error { yyclearin;fprintf(stderr,"Error type B [%s] at line [%d]\n",rc_string(RC::MissingSemi).c_str(),yylineno);}
 	| Block{$$=NewAst("Stmt",yylineno,1,$1);}
+        | Block error { yyclearin;fprintf(stderr,"Error type B [%s] at line [%d]\n",rc_string(RC::MissingSemi).c_str(),yylineno);}
 	| IF "(" Cond ")" Stmt {$$=NewAst("Stmt",yylineno,5,$1,$2,$3,$4,$5);}
 	| IF "(" Cond ")" Stmt ELSE Stmt {$$=NewAst("Stmt",yylineno,4,$1,$2,$3,$4);}
 	| WHILE "(" Cond ")" Stmt {$$=NewAst("Stmt",yylineno,5,$1,$2,$3,$4,$5);}
 	| BREAK ";" {$$=NewAst("Stmt",yylineno,2,$1,$2);}
+        | BREAK error { yyclearin;fprintf(stderr,"Error type B [%s] at line [%d]\n",rc_string(RC::MissingSemi).c_str(),yylineno);}
 	| CONTINUE ";" {$$=NewAst("Stmt",yylineno,2,$1,$2);}
+        | CONTINUE error { yyclearin;fprintf(stderr,"Error type B [%s] at line [%d]\n",rc_string(RC::MissingSemi).c_str(),yylineno);}
 	| RETURN ";" {$$=NewAst("Stmt",yylineno,2,$1,$2);}
+        | RETURN error { yyclearin;fprintf(stderr,"Error type B [%s] at line [%d]\n",rc_string(RC::MissingSemi).c_str(),yylineno);}
 	| RETURN Exp ";" {$$=NewAst("Stmt",yylineno,3,$1,$2,$3);}
+        | RETURN Exp error { yyclearin;fprintf(stderr,"Error type B [%s] at line [%d]\n",rc_string(RC::MissingSemi).c_str(),yylineno);}
     ;
 Exp :
     AddExp {$$=NewAst("Exp",yylineno,1,$1);}
@@ -295,10 +311,12 @@ ArrayList:
 ;
 Number :
          ILLEGAL_HEX_CONST {
-                printf("Error type [%s] at line [%d] : Illegal hex number %s\n","Number",yylineno,yytext);
+                fprintf(stderr,"Error type A [%s] at line [%d] : Illegal hex number %s\n","Number",yylineno,yytext);
+                return 1;
         }
         | ILLEGAL_OCTAL_CONST{
-                printf("Error type [%s] at line [%d] : Illegal octal number %s\n","Number" ,yylineno,yytext);
+                fprintf(stderr,"Error type A [%s] at line [%d] : Illegal octal number %s\n","Number" ,yylineno,yytext);
+                return 1;
         }
 
         |INTNUM {
@@ -403,6 +421,11 @@ ConstExp :
         |StrExp {$$=NewAst("ConstExp",yylineno,1,$1);}
 
 ;
+error_missing_semi: error
+;
+error_line:  Stmt error_missing_semi {{ yyclearin;fprintf(stderr,"Error type B [%s] at line [%d]\n",rc_string(RC::MissingSemi).c_str(),yylineno);}}
+        | BType VarDefGroup error {{ yyclearin;fprintf(stderr,"Error type B [%s] at line [%d]\n",rc_string(RC::MissingSemi).c_str(),yylineno);}}
+;
 %%
 int main(int argc, char** argv){
     Ast node;
@@ -423,7 +446,7 @@ int main(int argc, char** argv){
                 }else{
                 printf("open file %s successfully\n",argv[1]);
                 }
-                cout<<"initial tree address"<<tree<<endl;
+                // cout<<"initial tree address"<<tree<<endl;
                 bool flag=yyparse(tree);
                 if(!flag){
 

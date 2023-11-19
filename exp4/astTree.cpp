@@ -6,7 +6,10 @@
             return;
         }
         std::cout<<"pre order print\n";
-        std::cout<<"layer: "<<1<<" name:"<<root->name<<" val:"<<root->val<<"\n";
+        if(!root->declByFlex){
+                std::cout<<"[Grammatical unit] layer: ("<<1<<") line: ("<<root->line<<") name: ("<<root->name<<") val: "<<root->val<<"\n";
+        }
+        // std::cout<<"layer: "<<1<<" name:"<<root->name<<" val:"<<root->val<<"\n";
         this->root->print("",2);
     }
 
@@ -20,22 +23,41 @@ line(line),
 name(name),
 val(val){}
 void astNode::print(string tab,int layer){
-            tab=tab+"   ";
-        for (auto v:this->childs){
-            std::cout<<tab<<"layer: "<<layer<<" name:"<<v->name<<" val:"<<v->val<<"\n";
-            v->print(tab,layer+1);
+        if (this->childs.size()==0){
+            if(! this->declByFlex){
+                std::cout<<tab<<"[Grammatical unit] layer: ("<<layer<<") line: ("<<this->line<<") name: ("<<this->name<<") val: "<<this->val<<"\n";
+            }
+            else {
+                if(this->name=="Ident")std::cout<<tab<<"[Lexical unit] layer: ("<<layer<<") line: ("<<this->line<<") name:"<<this->name<<" val:"<<this->val<<"\n";
+                else {std::cout<<tab<<"[Lexical unit] layer: ("<<layer<<") name:("<<this->name<<")\n";}
+            }
+        }
+        else if(this->childs.size()==1){
+             this->childs[0]->print(tab,layer);
+        }
+        else{
+            for (auto v:this->childs){
+                // if(! v->declByFlex){
+                // std::cout<<tab<<"[Grammatical unit] name:("<<v->name<<")\n";
+                // }
+                // else {
+                //     if(v->name=="Ident")std::cout<<tab<<"[Lexical unit] layer: ("<<layer<<") line: ("<<v->line<<") name:"<<v->name<<" val:"<<v->val<<"\n";
+                //     else {std::cout<<tab<<"[Lexical unit] layer: ("<<layer<<") name:("<<v->name<<")\n";}
+                // }
+                v->print(tab+"  ",layer+1);
+            }
         }
 }
 Ast NewAst(string name,int line,int num,...){
     Ast node = new astNode(name,name,line);
-    std::cout<<"create (key: "<<node->name<<" val: "<<node->val<<")\n";
+    // std::cout<<"create (key: "<<node->name<<" val: "<<node->val<<")\n";
     va_list list;
     va_start(list,num);
     Ast tmp;
     if (num>0){
         for(int i=0;i<num;i++){
         tmp=va_arg(list,Ast);
-        std::cout<<"insert (key: "<<tmp->name<<" val: "<<tmp->val<<") into parent (" <<node->name<<")\n";
+        // std::cout<<"insert (key: "<<tmp->name<<" val: "<<tmp->val<<") into parent (" <<node->name<<")\n";
         node->childs.push_back(tmp);
         }
     }
@@ -56,4 +78,12 @@ Ast NewAst(string name,string val,int line,int num,...){
     }
 
     return node;
+}
+string rc_string(RC rc){
+    switch (rc){
+        #define RETURNRCSTRING(name)case name:return #name;
+        RETURNRCSTRINGS()
+        #undef RETURNRCSTRING
+        default:return "UndefinedError";
+    }
 }

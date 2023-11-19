@@ -14,6 +14,7 @@ extern double atof();
 #define RETURN_TOKEN(name) \
     yylval.node=NewAst(#name,#name,yylineno,0);\
     yylval.node->val=yytext;\
+    yylval.node->declByFlex=true; \
     printf("%s:<%s,%d>\n",yytext,#name,name);\
     return name;
 
@@ -117,5 +118,5 @@ id [a-zA-Z_][a-zA-Z0-9]*
 
 \"[^"]*\"                               RETURN_TOKEN(SSS);
 '[^']*\'                                RETURN_TOKEN(SSS);
-.                                       printf("Error type [character] at line [%d] :Invalid character %c \n",yylineno,yytext[0]);
+.                                       printf("Error type A [character] at line [%d] :Invalid character %c \n",yylineno,yytext[0]);
 %%

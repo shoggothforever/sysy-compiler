@@ -1,4 +1,3 @@
 int main(){
-    int i=0123;
+    int i=0x123z;
 }
-EOF

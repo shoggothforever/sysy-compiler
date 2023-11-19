@@ -1186,13 +1186,14 @@ extern double atof();
 #define RETURN_TOKEN(name) \
     yylval.node=NewAst(#name,#name,yylineno,0);\
     yylval.node->val=yytext;\
+    yylval.node->declByFlex=true; \
     printf("%s:<%s,%d>\n",yytext,#name,name);\
     return name;
 
-#line 1193 "lex.yy.cpp"
+#line 1194 "lex.yy.cpp"
 #define YY_NO_INPUT 1
 
-#line 1196 "lex.yy.cpp"
+#line 1197 "lex.yy.cpp"
 
 #define INITIAL 0
 #define COMMENT 1
@@ -1410,10 +1411,10 @@ YY_DECL
 		}
 
 	{
-#line 49 "sysy.l"
+#line 50 "sysy.l"
 
 
-#line 1417 "lex.yy.cpp"
+#line 1418 "lex.yy.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1482,139 +1483,139 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 51 "sysy.l"
+#line 52 "sysy.l"
 {BEGIN(PREPROCESS);}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 52 "sysy.l"
+#line 53 "sysy.l"
 
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 53 "sysy.l"
+#line 54 "sysy.l"
 {BEGIN(INITIAL);}
 	YY_BREAK
 case YY_STATE_EOF(PREPROCESS):
-#line 54 "sysy.l"
+#line 55 "sysy.l"
 {BEGIN(INITIAL);}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 56 "sysy.l"
+#line 57 "sysy.l"
 {BEGIN(COMMENT);}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 57 "sysy.l"
+#line 58 "sysy.l"
 {BEGIN(INITIAL);}
 	YY_BREAK
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 58 "sysy.l"
+#line 59 "sysy.l"
 
 	YY_BREAK
 case YY_STATE_EOF(COMMENT):
-#line 59 "sysy.l"
+#line 60 "sysy.l"
 {return 0;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 60 "sysy.l"
+#line 61 "sysy.l"
 {BEGIN(LINECOMMENT);}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 61 "sysy.l"
+#line 62 "sysy.l"
 
 	YY_BREAK
 case 9:
 /* rule 9 can match eol */
 YY_RULE_SETUP
-#line 62 "sysy.l"
+#line 63 "sysy.l"
 {BEGIN(INITIAL);}
 	YY_BREAK
 case YY_STATE_EOF(LINECOMMENT):
-#line 63 "sysy.l"
+#line 64 "sysy.l"
 {BEGIN(INITIAL);}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 65 "sysy.l"
+#line 66 "sysy.l"
 {}
 	YY_BREAK
 case 11:
 /* rule 11 can match eol */
 YY_RULE_SETUP
-#line 66 "sysy.l"
+#line 67 "sysy.l"
 {}
 	YY_BREAK
 case 12:
 /* rule 12 can match eol */
 YY_RULE_SETUP
-#line 67 "sysy.l"
+#line 68 "sysy.l"
 {}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 68 "sysy.l"
+#line 69 "sysy.l"
 RETURN_TOKEN(INT);
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 69 "sysy.l"
+#line 70 "sysy.l"
 RETURN_TOKEN(FLOAT);
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 70 "sysy.l"
+#line 71 "sysy.l"
 RETURN_TOKEN(CONST);
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 71 "sysy.l"
+#line 72 "sysy.l"
 RETURN_TOKEN(VOID);
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 72 "sysy.l"
+#line 73 "sysy.l"
 RETURN_TOKEN(BREAK);
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 73 "sysy.l"
+#line 74 "sysy.l"
 RETURN_TOKEN(CONTINUE);
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 74 "sysy.l"
+#line 75 "sysy.l"
 RETURN_TOKEN(RETURN);
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 75 "sysy.l"
+#line 76 "sysy.l"
 RETURN_TOKEN(IF);
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 76 "sysy.l"
+#line 77 "sysy.l"
 RETURN_TOKEN(ELSE);
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 77 "sysy.l"
+#line 78 "sysy.l"
 RETURN_TOKEN(WHILE);
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 78 "sysy.l"
+#line 79 "sysy.l"
 RETURN_TOKEN(FOR);
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 79 "sysy.l"
+#line 80 "sysy.l"
 {
     RETURN_TOKEN(ILLEGAL_HEX_CONST);
 }
@@ -1622,7 +1623,7 @@ YY_RULE_SETUP
 case 25:
 /* rule 25 can match eol */
 YY_RULE_SETUP
-#line 82 "sysy.l"
+#line 83 "sysy.l"
 {
     if(strlen(yytext)>2&&yytext[1]=='x'||yytext[1]=='X'){
         RETURN_TOKEN (INTNUM);
@@ -1631,164 +1632,164 @@ YY_RULE_SETUP
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 87 "sysy.l"
+#line 88 "sysy.l"
 {
     RETURN_TOKEN(INTNUM);
     }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 90 "sysy.l"
+#line 91 "sysy.l"
 RETURN_TOKEN(FLOATNUM);
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 92 "sysy.l"
+#line 93 "sysy.l"
 RETURN_TOKEN(LT);
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 93 "sysy.l"
+#line 94 "sysy.l"
 RETURN_TOKEN(LE);
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 94 "sysy.l"
+#line 95 "sysy.l"
 RETURN_TOKEN(GT);
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 95 "sysy.l"
+#line 96 "sysy.l"
 RETURN_TOKEN(GE);
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 96 "sysy.l"
+#line 97 "sysy.l"
 RETURN_TOKEN(EQ);
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 97 "sysy.l"
+#line 98 "sysy.l"
 RETURN_TOKEN(NE);
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 98 "sysy.l"
+#line 99 "sysy.l"
 RETURN_TOKEN(ASSIGN);
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 99 "sysy.l"
+#line 100 "sysy.l"
 RETURN_TOKEN(ADD);
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 100 "sysy.l"
+#line 101 "sysy.l"
 RETURN_TOKEN(SUB);
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 101 "sysy.l"
+#line 102 "sysy.l"
 RETURN_TOKEN(MUL);
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 102 "sysy.l"
+#line 103 "sysy.l"
 RETURN_TOKEN(DIV);
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 103 "sysy.l"
+#line 104 "sysy.l"
 RETURN_TOKEN(MOD);
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 104 "sysy.l"
+#line 105 "sysy.l"
 RETURN_TOKEN(NOT);
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 105 "sysy.l"
+#line 106 "sysy.l"
 RETURN_TOKEN(AND);
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 106 "sysy.l"
+#line 107 "sysy.l"
 RETURN_TOKEN(OR);
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 107 "sysy.l"
+#line 108 "sysy.l"
 RETURN_TOKEN(SEMI);
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 108 "sysy.l"
+#line 109 "sysy.l"
 RETURN_TOKEN(COLON);
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 109 "sysy.l"
+#line 110 "sysy.l"
 RETURN_TOKEN(COMMA);
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 110 "sysy.l"
+#line 111 "sysy.l"
 RETURN_TOKEN(L);
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 111 "sysy.l"
+#line 112 "sysy.l"
 RETURN_TOKEN(R);
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 112 "sysy.l"
+#line 113 "sysy.l"
 RETURN_TOKEN(OB);
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 113 "sysy.l"
+#line 114 "sysy.l"
 RETURN_TOKEN(CB);
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 114 "sysy.l"
+#line 115 "sysy.l"
 RETURN_TOKEN(LB);
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 115 "sysy.l"
+#line 116 "sysy.l"
 RETURN_TOKEN(RB);
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 116 "sysy.l"
+#line 117 "sysy.l"
 RETURN_TOKEN(Ident);
 	YY_BREAK
 case 53:
 /* rule 53 can match eol */
 YY_RULE_SETUP
-#line 118 "sysy.l"
+#line 119 "sysy.l"
 RETURN_TOKEN(SSS);
 	YY_BREAK
 case 54:
 /* rule 54 can match eol */
 YY_RULE_SETUP
-#line 119 "sysy.l"
+#line 120 "sysy.l"
 RETURN_TOKEN(SSS);
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 120 "sysy.l"
-printf("Error type [character] at line [%d] :Invalid character %c \n",yylineno,yytext[0]);
+#line 121 "sysy.l"
+printf("Error type A [character] at line [%d] :Invalid character %c \n",yylineno,yytext[0]);
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 121 "sysy.l"
+#line 122 "sysy.l"
 ECHO;
 	YY_BREAK
-#line 1792 "lex.yy.cpp"
+#line 1793 "lex.yy.cpp"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2764,6 +2765,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 121 "sysy.l"
+#line 122 "sysy.l"
 
 
