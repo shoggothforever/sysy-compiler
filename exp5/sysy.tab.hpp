@@ -82,8 +82,8 @@ extern int yydebug;
     WHILE = 283,                   /* WHILE  */
     FOR = 284,                     /* FOR  */
     BREAK = 285,                   /* BREAK  */
-    RETURN = 286,                  /* RETURN  */
-    CONTINUE = 287,                /* CONTINUE  */
+    CONTINUE = 286,                /* CONTINUE  */
+    RETURN = 287,                  /* RETURN  */
     AND = 288,                     /* "&&"  */
     OR = 289,                      /* "||"  */
     INT = 290,                     /* INT  */
@@ -95,7 +95,7 @@ extern int yydebug;
     OCTAL_CONST = 296,             /* OCTAL_CONST  */
     INTNUM = 297,                  /* INTNUM  */
     FLOATNUM = 298,                /* FLOATNUM  */
-    SSS = 299,                     /* SSS  */
+    STR = 299,                     /* STR  */
     Ident = 300                    /* Ident  */
   };
   typedef enum yytokentype yytoken_kind_t;

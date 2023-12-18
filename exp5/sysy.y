@@ -68,8 +68,8 @@ float                           const_Float_Val;
 %token <String>WHILE
 %token <String>FOR
 %token <String>BREAK
-%token <String>RETURN
 %token <String>CONTINUE
+%token <String>RETURN
 %token <String>AND "&&"
 %token <String>OR "||"
 %token <String> INT
@@ -84,7 +84,7 @@ float                           const_Float_Val;
 %token <String> OCTAL_CONST
 %token <node> INTNUM
 %token <node> FLOATNUM
-%token <node> SSS
+%token <node> STR
 %token <node> Ident
 
 %type <node>PrimaryExp
@@ -339,7 +339,7 @@ Number :
         }
 
         |INTNUM {
-                cout<<"GET INTNUM: "<< yytext <<endl;
+                // cout<<"GET INT: "<< yytext <<endl;
                 string s = yytext;
 
                 long long num=0;
@@ -370,13 +370,13 @@ Number :
                                 num=num*10+code;
                         }
                 }
-                cout<<"get number value : "<<num<<endl;
-                $$=NewAst("NUMBER",s,yylineno,1,NewAst("INTNUM",std::to_string(num),yylineno,0));
+                // cout<<"get number value : "<<num<<endl;
+                $$=NewAst("NUMBER",s,yylineno,1,NewAst("INT",std::to_string(num),yylineno,0));
                 $$->intval=num;
         }
 
        | FLOATNUM {
-                $$=NewAst("NUMBER",yylineno,1,NewAst("FLOATNUM",yylineno,0));
+                $$=NewAst("NUMBER",yylineno,1,NewAst("FLOAT",yylineno,0));
                 $$->val=yytext;
                 $$->floatval=atof(yytext);
        }
@@ -433,7 +433,7 @@ LOrExp :
         | LOrExp OR LAndExp {$$=NewAst("LOrExp",yylineno,3,$1,$2,$3);}
 ;
 StrExp:
-    SSS{$$=NewAst("StrExp",$1->val,yylineno,1,$1);}
+    STR{$$=NewAst("StrExp",$1->val,yylineno,1,$1);}
 ;
 ConstExp :
         AddExp {$$=NewAst("ConstExp",yylineno,1,$1);}

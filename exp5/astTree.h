@@ -8,7 +8,7 @@
 using std::string;
 using std::vector;
 using std::unordered_map;
-
+using std::pair;
 
 
 typedef class astNode{
@@ -62,14 +62,38 @@ public:
     bool semantic_check();
 }* AstTree;
 AstTree NewTree(Ast root);
+/*------------------------------------------SEMANTIC CHECK STRUCTURE-----------------------------------------------*/
+
+
 
 
 /*------------------------------------------SEMANTIC CHECK FUNCTION-----------------------------------------------*/
+#define _TYPE_VARDECL "VarDecl"
 #define _TYPE_VARIABLE "variable"
-#define _TYPE_FUNCTION "function"
+#define _TYPE_FUNCTION "FuncDef"
 #define _TYPE_MAIN "main_function"
 #define _TYPE_LVAL "LVal"
-bool isNewScopeType(Ast node);
-bool isID(astNode* node);
-bool check_variable(const Ast& node,unordered_map<string,string>&mp);
 
+#define IsTokens()\
+IsToken(BLOCK)\
+IsToken(Decl)\
+IsToken(VarDecl)\
+IsToken(Ident)\
+IsToken(FuncDef)\
+IsToken(CompUnit) \
+IsToken(VarDefGroup)\
+IsToken(Stmt)\
+IsToken(FOR)\
+IsToken(RETURN)\
+IsToken(CONTINUE)\
+IsToken(WHILE)\
+IsToken(BREAK)\
+IsToken(CB)\
+
+
+
+#define IsToken(token) inline bool is##token (Ast &node);
+IsTokens()
+#undef IsToken
+void check_variable(const Ast& node,unordered_map<string,pair<string,string>>&mp);
+void check_function(const Ast& node);

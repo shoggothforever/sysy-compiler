@@ -1776,13 +1776,13 @@ case 53:
 /* rule 53 can match eol */
 YY_RULE_SETUP
 #line 126 "sysy.l"
-RETURN_TOKEN(SSS);
+RETURN_TOKEN(STR);
 	YY_BREAK
 case 54:
 /* rule 54 can match eol */
 YY_RULE_SETUP
 #line 127 "sysy.l"
-RETURN_TOKEN(SSS);
+RETURN_TOKEN(STR);
 	YY_BREAK
 case 55:
 YY_RULE_SETUP

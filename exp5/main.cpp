@@ -1,8 +1,4 @@
 // 添加了部分语义解析的功能代码
-#include<cstdio>
-#include <cstdlib>
-#include <cstring>
-#include<ctype.h>
 #include<iostream>
 #include<vector>
 #include<string>
@@ -31,7 +27,6 @@ int main(int argc, char** argv){
                 }else{
                 printf("open file %s successfully\n",argv[1]);
                 }
-                // cout<<"initial tree address"<<tree<<endl;
                 bool flag=yyparse(tree);
                 if(!flag){
                         parsedFiles.push_back(argv[i]);//解析无误

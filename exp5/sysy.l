@@ -123,7 +123,7 @@ id [a-zA-Z_][a-zA-Z0-9]*
 "]"         RETURN_TOKEN(RB);
 {id}        RETURN_TOKEN(Ident);
 
-\"[^"]*\"                               RETURN_TOKEN(SSS);
-'[^']*\'                                RETURN_TOKEN(SSS);
+\"[^"]*\"                               RETURN_TOKEN(STR);
+'[^']*\'                                RETURN_TOKEN(STR);
 .                                       printf("Error type A [character] at line [%d] :Invalid character %c \n",yylineno,yytext[0]);
 %%
