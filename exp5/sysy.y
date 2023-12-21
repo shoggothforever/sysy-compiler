@@ -260,9 +260,9 @@ FuncFParams : FuncFParam {$$=NewAst("FuncFparams",yylineno,1,$1);}
         }
 ;
 FuncFParam:
-        BType  {$$=NewAst("FuncFParam",yylineno,1,$1);}
-        | BType Ident {$$=NewAst("FuncFParam",yylineno,2,$1,$2);}
-        | BType Ident "[" "]" {$$=NewAst("FuncFParam",yylineno,4,$1,$2,$3,$4);}
+        BType  {$$=NewAst("FuncFParam",$1->val,yylineno,1,$1);}
+        | BType Ident {$$=NewAst("FuncFParam",$1->val,yylineno,2,$1,$2);}
+        | BType Ident "[" "]" {$$=NewAst("FuncFParam",$1->val+"[]",yylineno,4,$1,$2,$3,$4);}
         | BType Ident "[" "]" FuncFParamArray {$$=NewAst("FuncFParam",yylineno,5,$1,$2,$3,$4,$5);}
 ;
 FuncFParamArray:
@@ -314,8 +314,8 @@ Stmt :
         | RETURN Exp error { yyclearin;fprintf(stderr,"Error type B [%s] at line [%d]\n",rc_string(RC::MissingSemi).c_str(),yylineno);}
     ;
 Exp :
-    AddExp {$$=NewAst("Exp",yylineno,1,$1);}
-    |StrExp {$$=NewAst("Exp",yylineno,1,$1);}
+    AddExp {$$=NewAst("Exp",$1->val,yylineno,1,$1);}
+    |StrExp {$$=NewAst("Exp",$1->val,yylineno,1,$1);}
 ;
 Cond :
     LOrExp {$$=NewAst("Cond",yylineno,1,$1);}
@@ -388,9 +388,9 @@ PrimaryExp :
            | Number	{$$=NewAst("PrimaryExp",$1->val,yylineno,1,$1);}
 ;
 UnaryExp :
-        PrimaryExp {$$=NewAst("UnaryExp",yylineno,1,$1);}
-         | Ident "(" ")"  {$$=NewAst("UnaryExp",yylineno,3,$1,$2,$3);}
-         | Ident "(" FuncParamsGroup ")"  {$$=NewAst("UnaryExp",yylineno,4,$1,$2,$3,$4);}
+        PrimaryExp {$$=NewAst("UnaryExp",$1->val,yylineno,1,$1);}
+         | Ident "(" ")"  {$$=NewAst("UnaryExp",$1->val,yylineno,3,$1,$2,$3);}
+         | Ident "(" FuncParamsGroup ")"  {$$=NewAst("UnaryExp",$1->val,yylineno,4,$1,$2,$3,$4);}
          | UnaryOp UnaryExp {$$=NewAst("UnaryExp",yylineno,2,$1,$2);}
 ;
 UnaryOp :
@@ -398,8 +398,8 @@ UnaryOp :
         | SUB {$$=NewAst("UnaryOp",yylineno,1,$1);}
         | NOT {$$=NewAst("UnaryOp",yylineno,1,$1);}
 ;
-FuncParamsGroup: Exp {$$=NewAst("FuncParamsGroup",yylineno,1,$1);}
-        | FuncParamsGroup "," Exp {$$=NewAst("FuncParamsGroup",yylineno,3,$1,$2,$3);}
+FuncParamsGroup: Exp {$$=NewAst("FuncParamsGroup",$1->val,yylineno,1,$1);}
+        | FuncParamsGroup "," Exp {$$=NewAst("FuncParamsGroup",$1->val+","+$3->val,yylineno,3,$1,$2,$3);}
 ;
 MulExp :
         UnaryExp {$$=NewAst("MulExp",$1->val,yylineno,1,$1);}

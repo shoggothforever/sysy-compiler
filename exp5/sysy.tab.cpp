@@ -1792,19 +1792,19 @@ yyreduce:
 
   case 43: /* FuncFParam: BType  */
 #line 263 "sysy.y"
-               {(yyval.node)=NewAst("FuncFParam",yylineno,1,(yyvsp[0].node));}
+               {(yyval.node)=NewAst("FuncFParam",(yyvsp[0].node)->val,yylineno,1,(yyvsp[0].node));}
 #line 1797 "sysy.tab.cpp"
     break;
 
   case 44: /* FuncFParam: BType Ident  */
 #line 264 "sysy.y"
-                      {(yyval.node)=NewAst("FuncFParam",yylineno,2,(yyvsp[-1].node),(yyvsp[0].node));}
+                      {(yyval.node)=NewAst("FuncFParam",(yyvsp[-1].node)->val,yylineno,2,(yyvsp[-1].node),(yyvsp[0].node));}
 #line 1803 "sysy.tab.cpp"
     break;
 
   case 45: /* FuncFParam: BType Ident "[" "]"  */
 #line 265 "sysy.y"
-                              {(yyval.node)=NewAst("FuncFParam",yylineno,4,(yyvsp[-3].node),(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].String));}
+                              {(yyval.node)=NewAst("FuncFParam",(yyvsp[-3].node)->val+"[]",yylineno,4,(yyvsp[-3].node),(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].String));}
 #line 1809 "sysy.tab.cpp"
     break;
 
@@ -1989,13 +1989,13 @@ yyreduce:
 
   case 74: /* Exp: AddExp  */
 #line 317 "sysy.y"
-           {(yyval.node)=NewAst("Exp",yylineno,1,(yyvsp[0].node));}
+           {(yyval.node)=NewAst("Exp",(yyvsp[0].node)->val,yylineno,1,(yyvsp[0].node));}
 #line 1994 "sysy.tab.cpp"
     break;
 
   case 75: /* Exp: StrExp  */
 #line 318 "sysy.y"
-            {(yyval.node)=NewAst("Exp",yylineno,1,(yyvsp[0].node));}
+            {(yyval.node)=NewAst("Exp",(yyvsp[0].node)->val,yylineno,1,(yyvsp[0].node));}
 #line 2000 "sysy.tab.cpp"
     break;
 
@@ -2118,19 +2118,19 @@ yyreduce:
 
   case 88: /* UnaryExp: PrimaryExp  */
 #line 391 "sysy.y"
-                   {(yyval.node)=NewAst("UnaryExp",yylineno,1,(yyvsp[0].node));}
+                   {(yyval.node)=NewAst("UnaryExp",(yyvsp[0].node)->val,yylineno,1,(yyvsp[0].node));}
 #line 2123 "sysy.tab.cpp"
     break;
 
   case 89: /* UnaryExp: Ident "(" ")"  */
 #line 392 "sysy.y"
-                          {(yyval.node)=NewAst("UnaryExp",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].String));}
+                          {(yyval.node)=NewAst("UnaryExp",(yyvsp[-2].node)->val,yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].String));}
 #line 2129 "sysy.tab.cpp"
     break;
 
   case 90: /* UnaryExp: Ident "(" FuncParamsGroup ")"  */
 #line 393 "sysy.y"
-                                          {(yyval.node)=NewAst("UnaryExp",yylineno,4,(yyvsp[-3].node),(yyvsp[-2].String),(yyvsp[-1].node),(yyvsp[0].String));}
+                                          {(yyval.node)=NewAst("UnaryExp",(yyvsp[-3].node)->val,yylineno,4,(yyvsp[-3].node),(yyvsp[-2].String),(yyvsp[-1].node),(yyvsp[0].String));}
 #line 2135 "sysy.tab.cpp"
     break;
 
@@ -2160,13 +2160,13 @@ yyreduce:
 
   case 95: /* FuncParamsGroup: Exp  */
 #line 401 "sysy.y"
-                     {(yyval.node)=NewAst("FuncParamsGroup",yylineno,1,(yyvsp[0].node));}
+                     {(yyval.node)=NewAst("FuncParamsGroup",(yyvsp[0].node)->val,yylineno,1,(yyvsp[0].node));}
 #line 2165 "sysy.tab.cpp"
     break;
 
   case 96: /* FuncParamsGroup: FuncParamsGroup "," Exp  */
 #line 402 "sysy.y"
-                                  {(yyval.node)=NewAst("FuncParamsGroup",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
+                                  {(yyval.node)=NewAst("FuncParamsGroup",(yyvsp[-2].node)->val+","+(yyvsp[0].node)->val,yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
 #line 2171 "sysy.tab.cpp"
     break;
 

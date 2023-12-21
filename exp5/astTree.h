@@ -4,12 +4,20 @@
 #include<string>
 #include<cstdarg>
 #include<unordered_map>
+#include<unordered_set>
 #include<vector>
 using std::string;
 using std::vector;
+using std::unordered_set;
 using std::unordered_map;
 using std::pair;
 
+static unordered_map<string,vector<string>>func_paramas;
+static unordered_map<string,vector<string>>func_params_type;
+// key:函数名 value: pair<函数返回类型,vec<函数参数类型>>
+static unordered_set<string>func_set;
+static unordered_map<string,pair<string,vector<string>>>func_map;
+static bool DEBUG = 0 ;
 
 typedef class astNode{
 public:
@@ -79,21 +87,30 @@ IsToken(BLOCK)\
 IsToken(Decl)\
 IsToken(VarDecl)\
 IsToken(Ident)\
+IsToken(NUMBER)\
 IsToken(FuncDef)\
+IsToken(FuncFparams)\
+IsToken(FuncFParam)\
 IsToken(CompUnit) \
+IsToken(VarDef)\
 IsToken(VarDefGroup)\
+IsToken(BlockItem)\
 IsToken(Stmt)\
+IsToken(Exp)\
+IsToken(UnaryExp)\
+IsToken(FuncParamsGroup)\
 IsToken(FOR)\
 IsToken(RETURN)\
 IsToken(CONTINUE)\
 IsToken(WHILE)\
 IsToken(BREAK)\
 IsToken(CB)\
+IsToken(ArrayDef)\
 
 
 
 #define IsToken(token) inline bool is##token (Ast &node);
 IsTokens()
 #undef IsToken
-void check_variable(const Ast& node,unordered_map<string,pair<string,string>>&mp);
+void check_variable(const Ast& node);
 void check_function(const Ast& node);

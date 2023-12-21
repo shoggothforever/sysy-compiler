@@ -33,7 +33,7 @@ int main(int argc, char** argv){
                         parsedTrees.push_back(tree);
                 }
                 if(tree->root){
-                    tree->print();
+                    if(DEBUG)tree->print();
                     tree->semantic_check();
                 }
                 fclose(yyin);
