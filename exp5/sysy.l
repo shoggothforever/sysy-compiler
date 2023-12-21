@@ -1,6 +1,6 @@
 %{
 #include <stdio.h>
-#include "astTree.h"
+#include "asTree.h"
 #include "sysy.tab.hpp"
 #include <iostream>
 using namespace std;

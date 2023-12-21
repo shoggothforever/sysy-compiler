@@ -8,7 +8,7 @@
     #include<vector>
     #include<deque>
     #include<string>
-    #include "astTree.h"
+    #include "asTree.h"
     using namespace std;
     #define YYDEBUG 1
     int yylex();
@@ -136,29 +136,31 @@ CompUnit: FuncDef {
                 // COUT(CompUnit);
                 $$=NewAst("CompUnit",yylineno,1,$1);
                 $$->isRoot=true;
-                cout<<"set tree's root\n";
                 tree->root=$$;
                 }
         | CompUnit FuncDef {
                 $$=NewAst("CompUnit",yylineno,2,$1,$2);
                 $$->isRoot=true;
-                cout<<"set tree's root\n";
                 tree->root=$$;
         }
         | Decl {
                 $$=NewAst("CompUnit",yylineno,1,$1);
                 $$->isRoot=true;
-                cout<<"set tree's root\n";
                 tree->root=$$;
                 }
         | CompUnit Decl {
                 $$=NewAst("CompUnit",yylineno,2,$1,$2);
                 $$->isRoot=true;
-                cout<<"set tree's root\n";
                 tree->root=$$;
         };
-Decl: ConstDecl {$$=NewAst("Decl",yylineno,1,$1);}
-     |VarDecl {$$=NewAst("Decl",yylineno,1,$1);}
+Decl: ConstDecl {
+        // $$=NewAst("Decl",yylineno,1,$1);
+        $$=$1;
+        }
+     |VarDecl {
+        $$=NewAst("Decl",yylineno,1,$1);
+        // $$=$1;
+        }
 ConstDecl: CONST BType ConstDef ";"  {$$=NewAst("Decl",yylineno,3,$1,$2,$3);}
           |ConstDecl "," ConstDef  {$$=NewAst("Decl",yylineno,3,$1,$2,$3);}
           ;
@@ -223,7 +225,10 @@ ArrayDef:
                 return 1;
         }
 ;
-InitVal : Exp {$$=NewAst("InitVal",yylineno,1,$1);}
+InitVal : Exp {
+        // $$=NewAst("InitVal",yylineno,1,$1);
+        $$=$1;
+        }
         | "{" "}"  {$$=NewAst("InitVal",yylineno,2,$1,$2);}
         | "{" InitValGroup "}" {$$=NewAst("InitVal",yylineno,3,$1,$2,$3);}
 ;
@@ -285,12 +290,21 @@ Block :
         }
 ;
 BlockGroup:
-        BlockItem {$$=NewAst("BlockGroup",yylineno,1,$1);}
+        BlockItem {
+                // $$=NewAst("BlockGroup",yylineno,1,$1);
+                $$=$1;
+                }
         | BlockGroup BlockItem{$$=NewAst("BlockGroup",yylineno,2,$1, $2);}
 ;
 BlockItem :
-        Decl  {$$=NewAst("BlockItem",yylineno,1,$1);}
-        | Stmt {$$=NewAst("BlockItem",yylineno,1,$1);}
+        Decl  {
+                // $$=NewAst("BlockItem",yylineno,1,$1);
+                $$=$1;
+        }
+        | Stmt {
+                // $$=NewAst("BlockItem",yylineno,1,$1);
+                $$=$1;
+        }
 ;
 Stmt :
     LVal "=" Exp ";" {$$=NewAst("Stmt",yylineno,3,$1,$2,$3);}
@@ -314,14 +328,27 @@ Stmt :
         | RETURN Exp error { yyclearin;fprintf(stderr,"Error type B [%s] at line [%d]\n",rc_string(RC::MissingSemi).c_str(),yylineno);}
     ;
 Exp :
-    AddExp {$$=NewAst("Exp",$1->val,yylineno,1,$1);}
-    |StrExp {$$=NewAst("Exp",$1->val,yylineno,1,$1);}
+    AddExp {
+        // $$=NewAst("Exp",$1->val,yylineno,1,$1);
+        $$=$1;
+
+    }
+    |StrExp {
+        // $$=NewAst("Exp",$1->val,yylineno,1,$1);
+        $$=$1;
+    }
 ;
 Cond :
-    LOrExp {$$=NewAst("Cond",yylineno,1,$1);}
+    LOrExp {
+        // $$=NewAst("Cond",yylineno,1,$1);
+        $$=$1;
+        }
 ;
 LVal :
-    Ident {$$=NewAst("LVal",$1->val,yylineno,1,$1);}
+    Ident {
+        // $$=NewAst("LVal",$1->val,yylineno,1,$1);
+        $$=$1;
+    }
     | Ident ArrayList {$$=NewAst("LVal",yylineno,2,$1,$2);}
 ;
 ArrayList:
@@ -384,11 +411,20 @@ Number :
        ;
 PrimaryExp :
             "(" Exp ")" {$$=NewAst("PrimaryExp",$2->val,yylineno,3,$1,$2,$3);}
-           | LVal 	 {$$=NewAst("PrimaryExp",$1->val,yylineno,1,$1);}
-           | Number	{$$=NewAst("PrimaryExp",$1->val,yylineno,1,$1);}
+           | LVal 	 {
+                // $$=NewAst("PrimaryExp",$1->val,yylineno,1,$1);
+           $$=$1;
+           }
+           | Number	{
+                // $$=NewAst("PrimaryExp",$1->val,yylineno,1,$1);
+                $$=$1;
+                }
 ;
 UnaryExp :
-        PrimaryExp {$$=NewAst("UnaryExp",$1->val,yylineno,1,$1);}
+        PrimaryExp {
+                // $$=NewAst("UnaryExp",$1->val,yylineno,1,$1);
+                $$=$1;
+        }
          | Ident "(" ")"  {$$=NewAst("UnaryExp",$1->val,yylineno,3,$1,$2,$3);}
          | Ident "(" FuncParamsGroup ")"  {$$=NewAst("UnaryExp",$1->val,yylineno,4,$1,$2,$3,$4);}
          | UnaryOp UnaryExp {$$=NewAst("UnaryExp",yylineno,2,$1,$2);}
@@ -402,42 +438,69 @@ FuncParamsGroup: Exp {$$=NewAst("FuncParamsGroup",$1->val,yylineno,1,$1);}
         | FuncParamsGroup "," Exp {$$=NewAst("FuncParamsGroup",$1->val+","+$3->val,yylineno,3,$1,$2,$3);}
 ;
 MulExp :
-        UnaryExp {$$=NewAst("MulExp",$1->val,yylineno,1,$1);}
+        UnaryExp {
+                // $$=NewAst("MulExp",$1->val,yylineno,1,$1);
+        $$=$1;
+        }
        | MulExp MUL UnaryExp {$$=NewAst("MulExp",yylineno,3,$1,$2,$3);}
        | MulExp DIV UnaryExp {$$=NewAst("MulExp",yylineno,3,$1,$2,$3);}
        | MulExp MOD UnaryExp {$$=NewAst("MulExp",yylineno,3,$1,$2,$3);}
 ;
 AddExp :
-        MulExp {$$=NewAst("AddExp",$1->val,yylineno,1,$1);}
+        MulExp {
+                // $$=NewAst("AddExp",$1->val,yylineno,1,$1);
+        $$=$1;
+        }
        | AddExp ADD MulExp {$$=NewAst("AddExp",yylineno,3,$1,$2,$3);}
        | AddExp SUB MulExp {$$=NewAst("AddExp",yylineno,3,$1,$2,$3);}
        ;
 RelExp :
-        AddExp {$$=NewAst("RelExp",$1->val,yylineno,1,$1);}
+        AddExp {
+                // $$=NewAst("RelExp",$1->val,yylineno,1,$1);
+        $$=$1;
+        }
        |RelExp LT AddExp {$$=NewAst("RelExp",yylineno,3,$1,$2,$3);}
        |RelExp GT AddExp {$$=NewAst("RelExp",yylineno,3,$1,$2,$3);}
        |RelExp LE AddExp {$$=NewAst("RelExp",yylineno,3,$1,$2,$3);}
        |RelExp GE AddExp {$$=NewAst("RelExp",yylineno,3,$1,$2,$3);}
        ;
 EqExp :
-        RelExp {$$=NewAst("EqExp",$1->val,yylineno,1,$1);}
+        RelExp {
+                // $$=NewAst("EqExp",$1->val,yylineno,1,$1);
+        $$=$1;
+        }
         | EqExp EQ RelExp {$$=NewAst("EqExp",yylineno,3,$1,$2,$3);}
         | EqExp NE RelExp  {$$=NewAst("EqExp",yylineno,3,$1,$2,$3);}
         ;
 LAndExp :
-        EqExp {$$=NewAst("LAndExp",$1->val,yylineno,1,$1);}
+        EqExp {
+                // $$=NewAst("LAndExp",$1->val,yylineno,1,$1);
+        $$=$1;
+        }
         | LAndExp AND EqExp {$$=NewAst("LAndExp",yylineno,3,$1,$2,$3);}
 ;
 LOrExp :
-        LAndExp {$$=NewAst("LOrExp",$1->val,yylineno,1,$1);}
+        LAndExp {
+        // $$=NewAst("LOrExp",$1->val,yylineno,1,$1);
+        $$=$1;
+        }
         | LOrExp OR LAndExp {$$=NewAst("LOrExp",yylineno,3,$1,$2,$3);}
 ;
 StrExp:
-    STR{$$=NewAst("StrExp",$1->val,yylineno,1,$1);}
+    STR{
+        // $$=NewAst("StrExp",$1->val,yylineno,1,$1);
+        $$=$1;
+        }
 ;
 ConstExp :
-        AddExp {$$=NewAst("ConstExp",yylineno,1,$1);}
-        |StrExp {$$=NewAst("ConstExp",yylineno,1,$1);}
+        AddExp {
+                // $$=NewAst("ConstExp",yylineno,1,$1);
+        $$=$1;
+        }
+        |StrExp {
+                // $$=NewAst("ConstExp",yylineno,1,$1);
+        $$=$1;
+        }
 
 ;
 error_missing_semi: error

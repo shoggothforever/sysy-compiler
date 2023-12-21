@@ -1172,7 +1172,7 @@ char *yytext;
 #line 1 "sysy.l"
 #line 2 "sysy.l"
 #include <stdio.h>
-#include "astTree.h"
+#include "asTree.h"
 #include "sysy.tab.hpp"
 #include <iostream>
 using namespace std;

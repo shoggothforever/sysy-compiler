@@ -2,7 +2,7 @@
 #include<iostream>
 #include<vector>
 #include<string>
-#include "astTree.h"
+#include "asTree.h"
 using namespace std;
 
 extern bool yyparse (AstTree tree);
@@ -33,7 +33,7 @@ int main(int argc, char** argv){
                         parsedTrees.push_back(tree);
                 }
                 if(tree->root){
-                    if(DEBUG)tree->print();
+                    // tree->print();
                     tree->semantic_check();
                 }
                 fclose(yyin);

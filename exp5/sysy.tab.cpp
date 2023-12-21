@@ -77,7 +77,7 @@
     #include<vector>
     #include<deque>
     #include<string>
-    #include "astTree.h"
+    #include "asTree.h"
     using namespace std;
     #define YYDEBUG 1
     int yylex();
@@ -606,18 +606,18 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   135,   135,   142,   148,   154,   160,   161,   162,   163,
-     167,   168,   169,   171,   178,   186,   187,   189,   190,   191,
-     192,   194,   197,   201,   208,   210,   211,   213,   214,   215,
-     216,   219,   220,   221,   226,   227,   228,   230,   231,   234,
-     243,   254,   255,   263,   264,   265,   266,   269,   270,   273,
-     279,   288,   289,   292,   293,   296,   297,   298,   299,   300,
-     301,   302,   303,   304,   305,   306,   307,   308,   309,   310,
-     311,   312,   313,   314,   317,   318,   321,   324,   325,   328,
-     329,   332,   336,   341,   378,   386,   387,   388,   391,   392,
-     393,   394,   397,   398,   399,   401,   402,   405,   406,   407,
-     408,   411,   412,   413,   416,   417,   418,   419,   420,   423,
-     424,   425,   428,   429,   432,   433,   436,   439,   440
+       0,   135,   135,   141,   146,   151,   156,   160,   164,   165,
+     169,   170,   171,   173,   180,   188,   189,   191,   192,   193,
+     194,   196,   199,   203,   210,   212,   213,   215,   216,   217,
+     218,   221,   222,   223,   228,   232,   233,   235,   236,   239,
+     248,   259,   260,   268,   269,   270,   271,   274,   275,   278,
+     284,   293,   297,   300,   304,   310,   311,   312,   313,   314,
+     315,   316,   317,   318,   319,   320,   321,   322,   323,   324,
+     325,   326,   327,   328,   331,   336,   342,   348,   352,   355,
+     356,   359,   363,   368,   405,   413,   414,   418,   424,   428,
+     429,   430,   433,   434,   435,   437,   438,   441,   445,   446,
+     447,   450,   454,   455,   458,   462,   463,   464,   465,   468,
+     472,   473,   476,   480,   483,   487,   490,   496,   500
 };
 #endif
 
@@ -1484,89 +1484,91 @@ yyreduce:
                 // COUT(CompUnit);
                 (yyval.node)=NewAst("CompUnit",yylineno,1,(yyvsp[0].node));
                 (yyval.node)->isRoot=true;
-                cout<<"set tree's root\n";
                 tree->root=(yyval.node);
                 }
-#line 1491 "sysy.tab.cpp"
+#line 1490 "sysy.tab.cpp"
     break;
 
   case 3: /* CompUnit: CompUnit FuncDef  */
-#line 142 "sysy.y"
+#line 141 "sysy.y"
                            {
                 (yyval.node)=NewAst("CompUnit",yylineno,2,(yyvsp[-1].node),(yyvsp[0].node));
                 (yyval.node)->isRoot=true;
-                cout<<"set tree's root\n";
                 tree->root=(yyval.node);
         }
-#line 1502 "sysy.tab.cpp"
+#line 1500 "sysy.tab.cpp"
     break;
 
   case 4: /* CompUnit: Decl  */
-#line 148 "sysy.y"
+#line 146 "sysy.y"
                {
                 (yyval.node)=NewAst("CompUnit",yylineno,1,(yyvsp[0].node));
                 (yyval.node)->isRoot=true;
-                cout<<"set tree's root\n";
                 tree->root=(yyval.node);
                 }
-#line 1513 "sysy.tab.cpp"
+#line 1510 "sysy.tab.cpp"
     break;
 
   case 5: /* CompUnit: CompUnit Decl  */
-#line 154 "sysy.y"
+#line 151 "sysy.y"
                         {
                 (yyval.node)=NewAst("CompUnit",yylineno,2,(yyvsp[-1].node),(yyvsp[0].node));
                 (yyval.node)->isRoot=true;
-                cout<<"set tree's root\n";
                 tree->root=(yyval.node);
         }
-#line 1524 "sysy.tab.cpp"
+#line 1520 "sysy.tab.cpp"
     break;
 
   case 6: /* Decl: ConstDecl  */
-#line 160 "sysy.y"
-                {(yyval.node)=NewAst("Decl",yylineno,1,(yyvsp[0].node));}
-#line 1530 "sysy.tab.cpp"
+#line 156 "sysy.y"
+                {
+        // $$=NewAst("Decl",yylineno,1,$1);
+        (yyval.node)=(yyvsp[0].node);
+        }
+#line 1529 "sysy.tab.cpp"
     break;
 
   case 7: /* Decl: VarDecl  */
-#line 161 "sysy.y"
-              {(yyval.node)=NewAst("Decl",yylineno,1,(yyvsp[0].node));}
-#line 1536 "sysy.tab.cpp"
+#line 160 "sysy.y"
+              {
+        (yyval.node)=NewAst("Decl",yylineno,1,(yyvsp[0].node));
+        // $$=$1;
+        }
+#line 1538 "sysy.tab.cpp"
     break;
 
   case 8: /* ConstDecl: CONST BType ConstDef ";"  */
-#line 162 "sysy.y"
+#line 164 "sysy.y"
                                      {(yyval.node)=NewAst("Decl",yylineno,3,(yyvsp[-3].String),(yyvsp[-2].node),(yyvsp[-1].node));}
-#line 1542 "sysy.tab.cpp"
+#line 1544 "sysy.tab.cpp"
     break;
 
   case 9: /* ConstDecl: ConstDecl "," ConstDef  */
-#line 163 "sysy.y"
+#line 165 "sysy.y"
                                    {(yyval.node)=NewAst("Decl",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
-#line 1548 "sysy.tab.cpp"
+#line 1550 "sysy.tab.cpp"
     break;
 
   case 10: /* BType: INT  */
-#line 167 "sysy.y"
+#line 169 "sysy.y"
         {(yyval.node)=NewAst("BType","INT",yylineno,0);}
-#line 1554 "sysy.tab.cpp"
+#line 1556 "sysy.tab.cpp"
     break;
 
   case 11: /* BType: FLOAT  */
-#line 168 "sysy.y"
+#line 170 "sysy.y"
              {(yyval.node)=NewAst("BType","FLOAT",yylineno,0);}
-#line 1560 "sysy.tab.cpp"
+#line 1562 "sysy.tab.cpp"
     break;
 
   case 12: /* BType: VOID  */
-#line 169 "sysy.y"
+#line 171 "sysy.y"
             {(yyval.node)=NewAst("BType","VOID",yylineno,0);}
-#line 1566 "sysy.tab.cpp"
+#line 1568 "sysy.tab.cpp"
     break;
 
   case 13: /* ConstDef: Ident ConstExpGroup "=" ConstInitVal  */
-#line 171 "sysy.y"
+#line 173 "sysy.y"
                                                   {
         (yyval.node)=NewAst("ConstDef",yylineno,4,
         (yyvsp[-3].node),
@@ -1574,178 +1576,181 @@ yyreduce:
         (yyvsp[-1].String),
         (yyvsp[0].node));
         }
-#line 1578 "sysy.tab.cpp"
+#line 1580 "sysy.tab.cpp"
     break;
 
   case 14: /* ConstDef: Ident "=" ConstInitVal  */
-#line 178 "sysy.y"
+#line 180 "sysy.y"
                                    {
         (yyval.node)=NewAst("ConstDef",yylineno,3,
         (yyvsp[-2].node),
         (yyvsp[-1].String),
         (yyvsp[0].node));
         }
-#line 1589 "sysy.tab.cpp"
+#line 1591 "sysy.tab.cpp"
     break;
 
   case 15: /* ConstExpGroup: "[" ConstExp "]"  */
-#line 186 "sysy.y"
+#line 188 "sysy.y"
                                 {(yyval.node)=NewAst("ConstExpGroup",yylineno,3,(yyvsp[-2].String),(yyvsp[-1].node),(yyvsp[0].String));}
-#line 1595 "sysy.tab.cpp"
+#line 1597 "sysy.tab.cpp"
     break;
 
   case 16: /* ConstExpGroup: ConstExpGroup "[" ConstExp "]"  */
-#line 187 "sysy.y"
+#line 189 "sysy.y"
                                              {(yyval.node)=NewAst("ConstExpGroup",yylineno,4,(yyvsp[-3].node),(yyvsp[-2].String),(yyvsp[-1].node),(yyvsp[0].String));}
-#line 1601 "sysy.tab.cpp"
+#line 1603 "sysy.tab.cpp"
     break;
 
   case 17: /* ConstInitVal: ConstExp  */
-#line 189 "sysy.y"
+#line 191 "sysy.y"
                         {(yyval.node)=NewAst("ConstInitVal",yylineno,1,(yyvsp[0].node));}
-#line 1607 "sysy.tab.cpp"
+#line 1609 "sysy.tab.cpp"
     break;
 
   case 18: /* ConstInitVal: "{" "}"  */
-#line 190 "sysy.y"
+#line 192 "sysy.y"
                   {(yyval.node)=NewAst("ConstInitVal",yylineno,2,(yyvsp[-1].String),(yyvsp[0].String));}
-#line 1613 "sysy.tab.cpp"
+#line 1615 "sysy.tab.cpp"
     break;
 
   case 19: /* ConstInitVal: "{" ConstInitValGroup "}"  */
-#line 191 "sysy.y"
+#line 193 "sysy.y"
                                      {(yyval.node)=NewAst("ConstInitVal",yylineno,3,(yyvsp[-2].String),(yyvsp[-1].node),(yyvsp[0].String));}
-#line 1619 "sysy.tab.cpp"
+#line 1621 "sysy.tab.cpp"
     break;
 
   case 20: /* ConstInitVal: error  */
-#line 192 "sysy.y"
+#line 194 "sysy.y"
                 {}
-#line 1625 "sysy.tab.cpp"
+#line 1627 "sysy.tab.cpp"
     break;
 
   case 21: /* ConstInitValGroup: ConstInitVal  */
-#line 194 "sysy.y"
+#line 196 "sysy.y"
                                  {
         // COUT(ConstInitValGroup);
 }
-#line 1633 "sysy.tab.cpp"
+#line 1635 "sysy.tab.cpp"
     break;
 
   case 22: /* ConstInitValGroup: ConstInitValGroup "," ConstInitVal  */
-#line 197 "sysy.y"
+#line 199 "sysy.y"
                                              {
                 // COUT(ConstInitValGroup);
         }
-#line 1641 "sysy.tab.cpp"
+#line 1643 "sysy.tab.cpp"
     break;
 
   case 23: /* VarDecl: BType VarDefGroup ";"  */
-#line 201 "sysy.y"
+#line 203 "sysy.y"
                                 {
 
         (yyval.node)=NewAst("VarDecl",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].node),(yyvsp[0].String));
 
 
         }
-#line 1652 "sysy.tab.cpp"
+#line 1654 "sysy.tab.cpp"
     break;
 
   case 24: /* VarDecl: BType VarDefGroup error  */
-#line 208 "sysy.y"
+#line 210 "sysy.y"
                                  {yyclearin; fprintf(stderr,"Error type B [%s] at line [%d]\n",rc_string(RC::MissingSemi).c_str(),yylineno);}
-#line 1658 "sysy.tab.cpp"
+#line 1660 "sysy.tab.cpp"
     break;
 
   case 25: /* VarDefGroup: VarDef  */
-#line 210 "sysy.y"
+#line 212 "sysy.y"
                     {(yyval.node)=NewAst("VarDefGroup",(yyvsp[0].node)->val,yylineno,1,(yyvsp[0].node));}
-#line 1664 "sysy.tab.cpp"
+#line 1666 "sysy.tab.cpp"
     break;
 
   case 26: /* VarDefGroup: VarDefGroup "," VarDef  */
-#line 211 "sysy.y"
+#line 213 "sysy.y"
                                      {(yyval.node)=NewAst("VarDefGroup",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
-#line 1670 "sysy.tab.cpp"
+#line 1672 "sysy.tab.cpp"
     break;
 
   case 27: /* VarDef: Ident  */
-#line 213 "sysy.y"
+#line 215 "sysy.y"
                {(yyval.node)=NewAst("VarDef",(yyvsp[0].node)->val,yylineno,1,(yyvsp[0].node));}
-#line 1676 "sysy.tab.cpp"
+#line 1678 "sysy.tab.cpp"
     break;
 
   case 28: /* VarDef: Ident "=" InitVal  */
-#line 214 "sysy.y"
+#line 216 "sysy.y"
                                {(yyval.node)=NewAst("VarDef",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
-#line 1682 "sysy.tab.cpp"
+#line 1684 "sysy.tab.cpp"
     break;
 
   case 29: /* VarDef: Ident ArrayDef  */
-#line 215 "sysy.y"
+#line 217 "sysy.y"
                          {(yyval.node)=NewAst("VarDef",yylineno,2,(yyvsp[-1].node),(yyvsp[0].node));}
-#line 1688 "sysy.tab.cpp"
+#line 1690 "sysy.tab.cpp"
     break;
 
   case 30: /* VarDef: Ident ArrayDef "=" InitVal  */
-#line 216 "sysy.y"
+#line 218 "sysy.y"
                                         {(yyval.node)=NewAst("VarDef",yylineno,4,(yyvsp[-3].node),(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
-#line 1694 "sysy.tab.cpp"
+#line 1696 "sysy.tab.cpp"
     break;
 
   case 31: /* ArrayDef: "[" ConstExp "]"  */
-#line 219 "sysy.y"
+#line 221 "sysy.y"
                          {(yyval.node)=NewAst("ArrayDef",yylineno,3,(yyvsp[-2].String),(yyvsp[-1].node),(yyvsp[0].String));}
-#line 1700 "sysy.tab.cpp"
+#line 1702 "sysy.tab.cpp"
     break;
 
   case 32: /* ArrayDef: ArrayDef "[" ConstExp "]"  */
-#line 220 "sysy.y"
+#line 222 "sysy.y"
                                     {(yyval.node)=NewAst("ArrayDef",yylineno,4,(yyvsp[-3].node),(yyvsp[-2].String),(yyvsp[-1].node),(yyvsp[0].String));}
-#line 1706 "sysy.tab.cpp"
+#line 1708 "sysy.tab.cpp"
     break;
 
   case 33: /* ArrayDef: "[" error "]"  */
-#line 221 "sysy.y"
+#line 223 "sysy.y"
                        {
                 fprintf(stderr,"Error type B [%s] at line [%d] : need arguments in []\n",rc_string(RC::InvalidArrayDef).c_str(),yylineno);
                 return 1;
         }
-#line 1715 "sysy.tab.cpp"
+#line 1717 "sysy.tab.cpp"
     break;
 
   case 34: /* InitVal: Exp  */
-#line 226 "sysy.y"
-              {(yyval.node)=NewAst("InitVal",yylineno,1,(yyvsp[0].node));}
-#line 1721 "sysy.tab.cpp"
+#line 228 "sysy.y"
+              {
+        // $$=NewAst("InitVal",yylineno,1,$1);
+        (yyval.node)=(yyvsp[0].node);
+        }
+#line 1726 "sysy.tab.cpp"
     break;
 
   case 35: /* InitVal: "{" "}"  */
-#line 227 "sysy.y"
+#line 232 "sysy.y"
                    {(yyval.node)=NewAst("InitVal",yylineno,2,(yyvsp[-1].String),(yyvsp[0].String));}
-#line 1727 "sysy.tab.cpp"
+#line 1732 "sysy.tab.cpp"
     break;
 
   case 36: /* InitVal: "{" InitValGroup "}"  */
-#line 228 "sysy.y"
+#line 233 "sysy.y"
                                {(yyval.node)=NewAst("InitVal",yylineno,3,(yyvsp[-2].String),(yyvsp[-1].node),(yyvsp[0].String));}
-#line 1733 "sysy.tab.cpp"
+#line 1738 "sysy.tab.cpp"
     break;
 
   case 37: /* InitValGroup: InitVal  */
-#line 230 "sysy.y"
+#line 235 "sysy.y"
                       {(yyval.node)=NewAst("InitValGroup",yylineno,1,(yyvsp[0].node));}
-#line 1739 "sysy.tab.cpp"
+#line 1744 "sysy.tab.cpp"
     break;
 
   case 38: /* InitValGroup: InitValGroup "," InitVal  */
-#line 231 "sysy.y"
+#line 236 "sysy.y"
                                    {(yyval.node)=NewAst("InitValGroup",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
-#line 1745 "sysy.tab.cpp"
+#line 1750 "sysy.tab.cpp"
     break;
 
   case 39: /* FuncDef: BType Ident "(" ")" Block  */
-#line 234 "sysy.y"
+#line 239 "sysy.y"
                                   {
         (yyval.node)=NewAst("FuncDef",(yyvsp[-3].node)->val,yylineno,5,
                 (yyvsp[-4].node),
@@ -1755,11 +1760,11 @@ yyreduce:
                 (yyvsp[0].node));
 
         }
-#line 1759 "sysy.tab.cpp"
+#line 1764 "sysy.tab.cpp"
     break;
 
   case 40: /* FuncDef: BType Ident "(" FuncFParams ")" Block  */
-#line 243 "sysy.y"
+#line 248 "sysy.y"
                                                {
                 (yyval.node)=NewAst("FuncDef",(yyvsp[-4].node)->val,yylineno,6,
                 (yyvsp[-5].node),
@@ -1770,75 +1775,75 @@ yyreduce:
                 (yyvsp[0].node));
 
         }
-#line 1774 "sysy.tab.cpp"
+#line 1779 "sysy.tab.cpp"
     break;
 
   case 41: /* FuncFParams: FuncFParam  */
-#line 254 "sysy.y"
+#line 259 "sysy.y"
                          {(yyval.node)=NewAst("FuncFparams",yylineno,1,(yyvsp[0].node));}
-#line 1780 "sysy.tab.cpp"
+#line 1785 "sysy.tab.cpp"
     break;
 
   case 42: /* FuncFParams: FuncFParams "," FuncFParam  */
-#line 255 "sysy.y"
+#line 260 "sysy.y"
                                          {
                 (yyval.node)=NewAst("FuncFparams",yylineno,3,
                 (yyvsp[-2].node),
                 (yyvsp[-1].String),
                 (yyvsp[0].node));
         }
-#line 1791 "sysy.tab.cpp"
+#line 1796 "sysy.tab.cpp"
     break;
 
   case 43: /* FuncFParam: BType  */
-#line 263 "sysy.y"
+#line 268 "sysy.y"
                {(yyval.node)=NewAst("FuncFParam",(yyvsp[0].node)->val,yylineno,1,(yyvsp[0].node));}
-#line 1797 "sysy.tab.cpp"
+#line 1802 "sysy.tab.cpp"
     break;
 
   case 44: /* FuncFParam: BType Ident  */
-#line 264 "sysy.y"
+#line 269 "sysy.y"
                       {(yyval.node)=NewAst("FuncFParam",(yyvsp[-1].node)->val,yylineno,2,(yyvsp[-1].node),(yyvsp[0].node));}
-#line 1803 "sysy.tab.cpp"
+#line 1808 "sysy.tab.cpp"
     break;
 
   case 45: /* FuncFParam: BType Ident "[" "]"  */
-#line 265 "sysy.y"
+#line 270 "sysy.y"
                               {(yyval.node)=NewAst("FuncFParam",(yyvsp[-3].node)->val+"[]",yylineno,4,(yyvsp[-3].node),(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].String));}
-#line 1809 "sysy.tab.cpp"
+#line 1814 "sysy.tab.cpp"
     break;
 
   case 46: /* FuncFParam: BType Ident "[" "]" FuncFParamArray  */
-#line 266 "sysy.y"
+#line 271 "sysy.y"
                                               {(yyval.node)=NewAst("FuncFParam",yylineno,5,(yyvsp[-4].node),(yyvsp[-3].node),(yyvsp[-2].String),(yyvsp[-1].String),(yyvsp[0].node));}
-#line 1815 "sysy.tab.cpp"
+#line 1820 "sysy.tab.cpp"
     break;
 
   case 47: /* FuncFParamArray: "[" Exp "]"  */
-#line 269 "sysy.y"
+#line 274 "sysy.y"
                             {(yyval.node)=NewAst("FuncFParamArray",yylineno,3,(yyvsp[-2].String),(yyvsp[-1].node),(yyvsp[0].String));}
-#line 1821 "sysy.tab.cpp"
+#line 1826 "sysy.tab.cpp"
     break;
 
   case 48: /* FuncFParamArray: FuncFParamArray "[" Exp "]"  */
-#line 270 "sysy.y"
+#line 275 "sysy.y"
                                               {(yyval.node)=NewAst("FuncFParamArray",yylineno,4,(yyvsp[-3].node),(yyvsp[-2].String),(yyvsp[-1].node),(yyvsp[0].String));}
-#line 1827 "sysy.tab.cpp"
+#line 1832 "sysy.tab.cpp"
     break;
 
   case 49: /* Block: "{" "}"  */
-#line 273 "sysy.y"
+#line 278 "sysy.y"
             {
         (yyval.node)=NewAst("BLOCK",yylineno,2,
         (yyvsp[-1].String),
         (yyvsp[0].String));
 
         }
-#line 1838 "sysy.tab.cpp"
+#line 1843 "sysy.tab.cpp"
     break;
 
   case 50: /* Block: "{" BlockGroup "}"  */
-#line 279 "sysy.y"
+#line 284 "sysy.y"
                          {
         (yyval.node)=NewAst("BLOCK",yylineno,3,
         (yyvsp[-2].String),
@@ -1846,209 +1851,231 @@ yyreduce:
         (yyvsp[0].String));
 
         }
-#line 1850 "sysy.tab.cpp"
+#line 1855 "sysy.tab.cpp"
     break;
 
   case 51: /* BlockGroup: BlockItem  */
-#line 288 "sysy.y"
-                  {(yyval.node)=NewAst("BlockGroup",yylineno,1,(yyvsp[0].node));}
-#line 1856 "sysy.tab.cpp"
+#line 293 "sysy.y"
+                  {
+                // $$=NewAst("BlockGroup",yylineno,1,$1);
+                (yyval.node)=(yyvsp[0].node);
+                }
+#line 1864 "sysy.tab.cpp"
     break;
 
   case 52: /* BlockGroup: BlockGroup BlockItem  */
-#line 289 "sysy.y"
+#line 297 "sysy.y"
                               {(yyval.node)=NewAst("BlockGroup",yylineno,2,(yyvsp[-1].node), (yyvsp[0].node));}
-#line 1862 "sysy.tab.cpp"
+#line 1870 "sysy.tab.cpp"
     break;
 
   case 53: /* BlockItem: Decl  */
-#line 292 "sysy.y"
-              {(yyval.node)=NewAst("BlockItem",yylineno,1,(yyvsp[0].node));}
-#line 1868 "sysy.tab.cpp"
+#line 300 "sysy.y"
+              {
+                // $$=NewAst("BlockItem",yylineno,1,$1);
+                (yyval.node)=(yyvsp[0].node);
+        }
+#line 1879 "sysy.tab.cpp"
     break;
 
   case 54: /* BlockItem: Stmt  */
-#line 293 "sysy.y"
-               {(yyval.node)=NewAst("BlockItem",yylineno,1,(yyvsp[0].node));}
-#line 1874 "sysy.tab.cpp"
+#line 304 "sysy.y"
+               {
+                // $$=NewAst("BlockItem",yylineno,1,$1);
+                (yyval.node)=(yyvsp[0].node);
+        }
+#line 1888 "sysy.tab.cpp"
     break;
 
   case 55: /* Stmt: LVal "=" Exp ";"  */
-#line 296 "sysy.y"
+#line 310 "sysy.y"
                      {(yyval.node)=NewAst("Stmt",yylineno,3,(yyvsp[-3].node),(yyvsp[-2].String),(yyvsp[-1].node));}
-#line 1880 "sysy.tab.cpp"
+#line 1894 "sysy.tab.cpp"
     break;
 
   case 56: /* Stmt: LVal "=" Exp error  */
-#line 297 "sysy.y"
+#line 311 "sysy.y"
                          { yyclearin;fprintf(stderr,"Error type B [%s] at line [%d]\n",rc_string(RC::MissingSemi).c_str(),yylineno);}
-#line 1886 "sysy.tab.cpp"
+#line 1900 "sysy.tab.cpp"
     break;
 
   case 57: /* Stmt: ";"  */
-#line 298 "sysy.y"
+#line 312 "sysy.y"
                {(yyval.node)=NewAst("Stmt",yylineno,1,(yyvsp[0].String));}
-#line 1892 "sysy.tab.cpp"
+#line 1906 "sysy.tab.cpp"
     break;
 
   case 58: /* Stmt: error  */
-#line 299 "sysy.y"
+#line 313 "sysy.y"
                 { yyclearin;fprintf(stderr,"Error type B [%s] at line [%d]\n",rc_string(RC::MissingSemi).c_str(),yylineno);}
-#line 1898 "sysy.tab.cpp"
+#line 1912 "sysy.tab.cpp"
     break;
 
   case 59: /* Stmt: Exp ";"  */
-#line 300 "sysy.y"
+#line 314 "sysy.y"
                  {(yyval.node)=NewAst("Stmt",yylineno,2,(yyvsp[-1].node),(yyvsp[0].String));}
-#line 1904 "sysy.tab.cpp"
+#line 1918 "sysy.tab.cpp"
     break;
 
   case 60: /* Stmt: Exp error  */
-#line 301 "sysy.y"
+#line 315 "sysy.y"
                     { yyclearin;fprintf(stderr,"Error type B [%s] at line [%d]\n",rc_string(RC::MissingSemi).c_str(),yylineno);}
-#line 1910 "sysy.tab.cpp"
+#line 1924 "sysy.tab.cpp"
     break;
 
   case 61: /* Stmt: Block  */
-#line 302 "sysy.y"
+#line 316 "sysy.y"
                {(yyval.node)=NewAst("Stmt",yylineno,1,(yyvsp[0].node));}
-#line 1916 "sysy.tab.cpp"
+#line 1930 "sysy.tab.cpp"
     break;
 
   case 62: /* Stmt: Block error  */
-#line 303 "sysy.y"
+#line 317 "sysy.y"
                       { yyclearin;fprintf(stderr,"Error type B [%s] at line [%d]\n",rc_string(RC::MissingSemi).c_str(),yylineno);}
-#line 1922 "sysy.tab.cpp"
+#line 1936 "sysy.tab.cpp"
     break;
 
   case 63: /* Stmt: IF "(" Cond ")" Stmt  */
-#line 304 "sysy.y"
+#line 318 "sysy.y"
                                {(yyval.node)=NewAst("Stmt",yylineno,5,(yyvsp[-4].String),(yyvsp[-3].String),(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
-#line 1928 "sysy.tab.cpp"
+#line 1942 "sysy.tab.cpp"
     break;
 
   case 64: /* Stmt: IF "(" Cond ")" Stmt ELSE Stmt  */
-#line 305 "sysy.y"
+#line 319 "sysy.y"
                                          {(yyval.node)=NewAst("Stmt",yylineno,4,(yyvsp[-6].String),(yyvsp[-5].String),(yyvsp[-4].node),(yyvsp[-3].String));}
-#line 1934 "sysy.tab.cpp"
+#line 1948 "sysy.tab.cpp"
     break;
 
   case 65: /* Stmt: WHILE "(" Cond ")" Stmt  */
-#line 306 "sysy.y"
+#line 320 "sysy.y"
                                   {(yyval.node)=NewAst("Stmt",yylineno,5,(yyvsp[-4].String),(yyvsp[-3].String),(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
-#line 1940 "sysy.tab.cpp"
+#line 1954 "sysy.tab.cpp"
     break;
 
   case 66: /* Stmt: BREAK ";"  */
-#line 307 "sysy.y"
+#line 321 "sysy.y"
                     {(yyval.node)=NewAst("Stmt",yylineno,2,(yyvsp[-1].String),(yyvsp[0].String));}
-#line 1946 "sysy.tab.cpp"
+#line 1960 "sysy.tab.cpp"
     break;
 
   case 67: /* Stmt: BREAK error  */
-#line 308 "sysy.y"
+#line 322 "sysy.y"
                       { yyclearin;fprintf(stderr,"Error type B [%s] at line [%d]\n",rc_string(RC::MissingSemi).c_str(),yylineno);}
-#line 1952 "sysy.tab.cpp"
+#line 1966 "sysy.tab.cpp"
     break;
 
   case 68: /* Stmt: CONTINUE ";"  */
-#line 309 "sysy.y"
+#line 323 "sysy.y"
                        {(yyval.node)=NewAst("Stmt",yylineno,2,(yyvsp[-1].String),(yyvsp[0].String));}
-#line 1958 "sysy.tab.cpp"
+#line 1972 "sysy.tab.cpp"
     break;
 
   case 69: /* Stmt: CONTINUE error  */
-#line 310 "sysy.y"
+#line 324 "sysy.y"
                          { yyclearin;fprintf(stderr,"Error type B [%s] at line [%d]\n",rc_string(RC::MissingSemi).c_str(),yylineno);}
-#line 1964 "sysy.tab.cpp"
+#line 1978 "sysy.tab.cpp"
     break;
 
   case 70: /* Stmt: RETURN ";"  */
-#line 311 "sysy.y"
+#line 325 "sysy.y"
                      {(yyval.node)=NewAst("Stmt",yylineno,2,(yyvsp[-1].String),(yyvsp[0].String));}
-#line 1970 "sysy.tab.cpp"
+#line 1984 "sysy.tab.cpp"
     break;
 
   case 71: /* Stmt: RETURN error  */
-#line 312 "sysy.y"
+#line 326 "sysy.y"
                        { yyclearin;fprintf(stderr,"Error type B [%s] at line [%d]\n",rc_string(RC::MissingSemi).c_str(),yylineno);}
-#line 1976 "sysy.tab.cpp"
+#line 1990 "sysy.tab.cpp"
     break;
 
   case 72: /* Stmt: RETURN Exp ";"  */
-#line 313 "sysy.y"
+#line 327 "sysy.y"
                          {(yyval.node)=NewAst("Stmt",yylineno,3,(yyvsp[-2].String),(yyvsp[-1].node),(yyvsp[0].String));}
-#line 1982 "sysy.tab.cpp"
+#line 1996 "sysy.tab.cpp"
     break;
 
   case 73: /* Stmt: RETURN Exp error  */
-#line 314 "sysy.y"
+#line 328 "sysy.y"
                            { yyclearin;fprintf(stderr,"Error type B [%s] at line [%d]\n",rc_string(RC::MissingSemi).c_str(),yylineno);}
-#line 1988 "sysy.tab.cpp"
+#line 2002 "sysy.tab.cpp"
     break;
 
   case 74: /* Exp: AddExp  */
-#line 317 "sysy.y"
-           {(yyval.node)=NewAst("Exp",(yyvsp[0].node)->val,yylineno,1,(yyvsp[0].node));}
-#line 1994 "sysy.tab.cpp"
-    break;
+#line 331 "sysy.y"
+           {
+        // $$=NewAst("Exp",$1->val,yylineno,1,$1);
+        (yyval.node)=(yyvsp[0].node);
 
-  case 75: /* Exp: StrExp  */
-#line 318 "sysy.y"
-            {(yyval.node)=NewAst("Exp",(yyvsp[0].node)->val,yylineno,1,(yyvsp[0].node));}
-#line 2000 "sysy.tab.cpp"
-    break;
-
-  case 76: /* Cond: LOrExp  */
-#line 321 "sysy.y"
-           {(yyval.node)=NewAst("Cond",yylineno,1,(yyvsp[0].node));}
-#line 2006 "sysy.tab.cpp"
-    break;
-
-  case 77: /* LVal: Ident  */
-#line 324 "sysy.y"
-          {(yyval.node)=NewAst("LVal",(yyvsp[0].node)->val,yylineno,1,(yyvsp[0].node));}
+    }
 #line 2012 "sysy.tab.cpp"
     break;
 
-  case 78: /* LVal: Ident ArrayList  */
-#line 325 "sysy.y"
-                      {(yyval.node)=NewAst("LVal",yylineno,2,(yyvsp[-1].node),(yyvsp[0].node));}
-#line 2018 "sysy.tab.cpp"
+  case 75: /* Exp: StrExp  */
+#line 336 "sysy.y"
+            {
+        // $$=NewAst("Exp",$1->val,yylineno,1,$1);
+        (yyval.node)=(yyvsp[0].node);
+    }
+#line 2021 "sysy.tab.cpp"
     break;
 
-  case 79: /* ArrayList: "[" Exp "]"  */
-#line 328 "sysy.y"
-                     {(yyval.node)=NewAst("ArrayList",yylineno,3,(yyvsp[-2].String),(yyvsp[-1].node),(yyvsp[0].String));}
-#line 2024 "sysy.tab.cpp"
-    break;
-
-  case 80: /* ArrayList: ArrayList "[" Exp "]"  */
-#line 329 "sysy.y"
-                                 {(yyval.node)=NewAst("ArrayList",yylineno,4,(yyvsp[-3].node),(yyvsp[-2].String),(yyvsp[-1].node),(yyvsp[0].String));}
+  case 76: /* Cond: LOrExp  */
+#line 342 "sysy.y"
+           {
+        // $$=NewAst("Cond",yylineno,1,$1);
+        (yyval.node)=(yyvsp[0].node);
+        }
 #line 2030 "sysy.tab.cpp"
     break;
 
+  case 77: /* LVal: Ident  */
+#line 348 "sysy.y"
+          {
+        // $$=NewAst("LVal",$1->val,yylineno,1,$1);
+        (yyval.node)=(yyvsp[0].node);
+    }
+#line 2039 "sysy.tab.cpp"
+    break;
+
+  case 78: /* LVal: Ident ArrayList  */
+#line 352 "sysy.y"
+                      {(yyval.node)=NewAst("LVal",yylineno,2,(yyvsp[-1].node),(yyvsp[0].node));}
+#line 2045 "sysy.tab.cpp"
+    break;
+
+  case 79: /* ArrayList: "[" Exp "]"  */
+#line 355 "sysy.y"
+                     {(yyval.node)=NewAst("ArrayList",yylineno,3,(yyvsp[-2].String),(yyvsp[-1].node),(yyvsp[0].String));}
+#line 2051 "sysy.tab.cpp"
+    break;
+
+  case 80: /* ArrayList: ArrayList "[" Exp "]"  */
+#line 356 "sysy.y"
+                                 {(yyval.node)=NewAst("ArrayList",yylineno,4,(yyvsp[-3].node),(yyvsp[-2].String),(yyvsp[-1].node),(yyvsp[0].String));}
+#line 2057 "sysy.tab.cpp"
+    break;
+
   case 81: /* Number: ILLEGAL_HEX_CONST  */
-#line 332 "sysy.y"
+#line 359 "sysy.y"
                            {
                 fprintf(stderr,"Error type A [%s] at line [%d] : Illegal hex number %s\n","Number",yylineno,yytext);
                 return 1;
         }
-#line 2039 "sysy.tab.cpp"
+#line 2066 "sysy.tab.cpp"
     break;
 
   case 82: /* Number: ILLEGAL_OCTAL_CONST  */
-#line 336 "sysy.y"
+#line 363 "sysy.y"
                              {
                 fprintf(stderr,"Error type A [%s] at line [%d] : Illegal octal number %s\n","Number" ,yylineno,yytext);
                 return 1;
         }
-#line 2048 "sysy.tab.cpp"
+#line 2075 "sysy.tab.cpp"
     break;
 
   case 83: /* Number: INTNUM  */
-#line 341 "sysy.y"
+#line 368 "sysy.y"
                 {
                 // cout<<"GET INT: "<< yytext <<endl;
                 string s = yytext;
@@ -2085,225 +2112,261 @@ yyreduce:
                 (yyval.node)=NewAst("NUMBER",s,yylineno,1,NewAst("INT",std::to_string(num),yylineno,0));
                 (yyval.node)->intval=num;
         }
-#line 2089 "sysy.tab.cpp"
+#line 2116 "sysy.tab.cpp"
     break;
 
   case 84: /* Number: FLOATNUM  */
-#line 378 "sysy.y"
+#line 405 "sysy.y"
                   {
                 (yyval.node)=NewAst("NUMBER",yylineno,1,NewAst("FLOAT",yylineno,0));
                 (yyval.node)->val=yytext;
                 (yyval.node)->floatval=atof(yytext);
        }
-#line 2099 "sysy.tab.cpp"
+#line 2126 "sysy.tab.cpp"
     break;
 
   case 85: /* PrimaryExp: "(" Exp ")"  */
-#line 386 "sysy.y"
+#line 413 "sysy.y"
                         {(yyval.node)=NewAst("PrimaryExp",(yyvsp[-1].node)->val,yylineno,3,(yyvsp[-2].String),(yyvsp[-1].node),(yyvsp[0].String));}
-#line 2105 "sysy.tab.cpp"
+#line 2132 "sysy.tab.cpp"
     break;
 
   case 86: /* PrimaryExp: LVal  */
-#line 387 "sysy.y"
-                         {(yyval.node)=NewAst("PrimaryExp",(yyvsp[0].node)->val,yylineno,1,(yyvsp[0].node));}
-#line 2111 "sysy.tab.cpp"
-    break;
-
-  case 87: /* PrimaryExp: Number  */
-#line 388 "sysy.y"
-                        {(yyval.node)=NewAst("PrimaryExp",(yyvsp[0].node)->val,yylineno,1,(yyvsp[0].node));}
-#line 2117 "sysy.tab.cpp"
-    break;
-
-  case 88: /* UnaryExp: PrimaryExp  */
-#line 391 "sysy.y"
-                   {(yyval.node)=NewAst("UnaryExp",(yyvsp[0].node)->val,yylineno,1,(yyvsp[0].node));}
-#line 2123 "sysy.tab.cpp"
-    break;
-
-  case 89: /* UnaryExp: Ident "(" ")"  */
-#line 392 "sysy.y"
-                          {(yyval.node)=NewAst("UnaryExp",(yyvsp[-2].node)->val,yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].String));}
-#line 2129 "sysy.tab.cpp"
-    break;
-
-  case 90: /* UnaryExp: Ident "(" FuncParamsGroup ")"  */
-#line 393 "sysy.y"
-                                          {(yyval.node)=NewAst("UnaryExp",(yyvsp[-3].node)->val,yylineno,4,(yyvsp[-3].node),(yyvsp[-2].String),(yyvsp[-1].node),(yyvsp[0].String));}
-#line 2135 "sysy.tab.cpp"
-    break;
-
-  case 91: /* UnaryExp: UnaryOp UnaryExp  */
-#line 394 "sysy.y"
-                            {(yyval.node)=NewAst("UnaryExp",yylineno,2,(yyvsp[-1].node),(yyvsp[0].node));}
+#line 414 "sysy.y"
+                         {
+                // $$=NewAst("PrimaryExp",$1->val,yylineno,1,$1);
+           (yyval.node)=(yyvsp[0].node);
+           }
 #line 2141 "sysy.tab.cpp"
     break;
 
-  case 92: /* UnaryOp: "+"  */
-#line 397 "sysy.y"
-            {(yyval.node)=NewAst("UnaryOp",yylineno,1,(yyvsp[0].String));}
-#line 2147 "sysy.tab.cpp"
+  case 87: /* PrimaryExp: Number  */
+#line 418 "sysy.y"
+                        {
+                // $$=NewAst("PrimaryExp",$1->val,yylineno,1,$1);
+                (yyval.node)=(yyvsp[0].node);
+                }
+#line 2150 "sysy.tab.cpp"
     break;
 
-  case 93: /* UnaryOp: "-"  */
-#line 398 "sysy.y"
-              {(yyval.node)=NewAst("UnaryOp",yylineno,1,(yyvsp[0].String));}
-#line 2153 "sysy.tab.cpp"
-    break;
-
-  case 94: /* UnaryOp: "!"  */
-#line 399 "sysy.y"
-              {(yyval.node)=NewAst("UnaryOp",yylineno,1,(yyvsp[0].String));}
+  case 88: /* UnaryExp: PrimaryExp  */
+#line 424 "sysy.y"
+                   {
+                // $$=NewAst("UnaryExp",$1->val,yylineno,1,$1);
+                (yyval.node)=(yyvsp[0].node);
+        }
 #line 2159 "sysy.tab.cpp"
     break;
 
-  case 95: /* FuncParamsGroup: Exp  */
-#line 401 "sysy.y"
-                     {(yyval.node)=NewAst("FuncParamsGroup",(yyvsp[0].node)->val,yylineno,1,(yyvsp[0].node));}
+  case 89: /* UnaryExp: Ident "(" ")"  */
+#line 428 "sysy.y"
+                          {(yyval.node)=NewAst("UnaryExp",(yyvsp[-2].node)->val,yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].String));}
 #line 2165 "sysy.tab.cpp"
     break;
 
-  case 96: /* FuncParamsGroup: FuncParamsGroup "," Exp  */
-#line 402 "sysy.y"
-                                  {(yyval.node)=NewAst("FuncParamsGroup",(yyvsp[-2].node)->val+","+(yyvsp[0].node)->val,yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
+  case 90: /* UnaryExp: Ident "(" FuncParamsGroup ")"  */
+#line 429 "sysy.y"
+                                          {(yyval.node)=NewAst("UnaryExp",(yyvsp[-3].node)->val,yylineno,4,(yyvsp[-3].node),(yyvsp[-2].String),(yyvsp[-1].node),(yyvsp[0].String));}
 #line 2171 "sysy.tab.cpp"
     break;
 
-  case 97: /* MulExp: UnaryExp  */
-#line 405 "sysy.y"
-                 {(yyval.node)=NewAst("MulExp",(yyvsp[0].node)->val,yylineno,1,(yyvsp[0].node));}
+  case 91: /* UnaryExp: UnaryOp UnaryExp  */
+#line 430 "sysy.y"
+                            {(yyval.node)=NewAst("UnaryExp",yylineno,2,(yyvsp[-1].node),(yyvsp[0].node));}
 #line 2177 "sysy.tab.cpp"
     break;
 
-  case 98: /* MulExp: MulExp "*" UnaryExp  */
-#line 406 "sysy.y"
-                             {(yyval.node)=NewAst("MulExp",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
+  case 92: /* UnaryOp: "+"  */
+#line 433 "sysy.y"
+            {(yyval.node)=NewAst("UnaryOp",yylineno,1,(yyvsp[0].String));}
 #line 2183 "sysy.tab.cpp"
     break;
 
-  case 99: /* MulExp: MulExp "/" UnaryExp  */
-#line 407 "sysy.y"
-                             {(yyval.node)=NewAst("MulExp",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
+  case 93: /* UnaryOp: "-"  */
+#line 434 "sysy.y"
+              {(yyval.node)=NewAst("UnaryOp",yylineno,1,(yyvsp[0].String));}
 #line 2189 "sysy.tab.cpp"
     break;
 
-  case 100: /* MulExp: MulExp "%" UnaryExp  */
-#line 408 "sysy.y"
-                             {(yyval.node)=NewAst("MulExp",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
+  case 94: /* UnaryOp: "!"  */
+#line 435 "sysy.y"
+              {(yyval.node)=NewAst("UnaryOp",yylineno,1,(yyvsp[0].String));}
 #line 2195 "sysy.tab.cpp"
     break;
 
-  case 101: /* AddExp: MulExp  */
-#line 411 "sysy.y"
-               {(yyval.node)=NewAst("AddExp",(yyvsp[0].node)->val,yylineno,1,(yyvsp[0].node));}
+  case 95: /* FuncParamsGroup: Exp  */
+#line 437 "sysy.y"
+                     {(yyval.node)=NewAst("FuncParamsGroup",(yyvsp[0].node)->val,yylineno,1,(yyvsp[0].node));}
 #line 2201 "sysy.tab.cpp"
     break;
 
-  case 102: /* AddExp: AddExp "+" MulExp  */
-#line 412 "sysy.y"
-                           {(yyval.node)=NewAst("AddExp",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
+  case 96: /* FuncParamsGroup: FuncParamsGroup "," Exp  */
+#line 438 "sysy.y"
+                                  {(yyval.node)=NewAst("FuncParamsGroup",(yyvsp[-2].node)->val+","+(yyvsp[0].node)->val,yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
 #line 2207 "sysy.tab.cpp"
     break;
 
-  case 103: /* AddExp: AddExp "-" MulExp  */
-#line 413 "sysy.y"
-                           {(yyval.node)=NewAst("AddExp",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
-#line 2213 "sysy.tab.cpp"
+  case 97: /* MulExp: UnaryExp  */
+#line 441 "sysy.y"
+                 {
+                // $$=NewAst("MulExp",$1->val,yylineno,1,$1);
+        (yyval.node)=(yyvsp[0].node);
+        }
+#line 2216 "sysy.tab.cpp"
     break;
 
-  case 104: /* RelExp: AddExp  */
-#line 416 "sysy.y"
-               {(yyval.node)=NewAst("RelExp",(yyvsp[0].node)->val,yylineno,1,(yyvsp[0].node));}
-#line 2219 "sysy.tab.cpp"
+  case 98: /* MulExp: MulExp "*" UnaryExp  */
+#line 445 "sysy.y"
+                             {(yyval.node)=NewAst("MulExp",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
+#line 2222 "sysy.tab.cpp"
     break;
 
-  case 105: /* RelExp: RelExp "<" AddExp  */
-#line 417 "sysy.y"
-                         {(yyval.node)=NewAst("RelExp",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
-#line 2225 "sysy.tab.cpp"
+  case 99: /* MulExp: MulExp "/" UnaryExp  */
+#line 446 "sysy.y"
+                             {(yyval.node)=NewAst("MulExp",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
+#line 2228 "sysy.tab.cpp"
     break;
 
-  case 106: /* RelExp: RelExp ">" AddExp  */
-#line 418 "sysy.y"
-                         {(yyval.node)=NewAst("RelExp",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
-#line 2231 "sysy.tab.cpp"
+  case 100: /* MulExp: MulExp "%" UnaryExp  */
+#line 447 "sysy.y"
+                             {(yyval.node)=NewAst("MulExp",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
+#line 2234 "sysy.tab.cpp"
     break;
 
-  case 107: /* RelExp: RelExp "<=" AddExp  */
-#line 419 "sysy.y"
-                         {(yyval.node)=NewAst("RelExp",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
-#line 2237 "sysy.tab.cpp"
-    break;
-
-  case 108: /* RelExp: RelExp ">=" AddExp  */
-#line 420 "sysy.y"
-                         {(yyval.node)=NewAst("RelExp",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
+  case 101: /* AddExp: MulExp  */
+#line 450 "sysy.y"
+               {
+                // $$=NewAst("AddExp",$1->val,yylineno,1,$1);
+        (yyval.node)=(yyvsp[0].node);
+        }
 #line 2243 "sysy.tab.cpp"
     break;
 
-  case 109: /* EqExp: RelExp  */
-#line 423 "sysy.y"
-               {(yyval.node)=NewAst("EqExp",(yyvsp[0].node)->val,yylineno,1,(yyvsp[0].node));}
+  case 102: /* AddExp: AddExp "+" MulExp  */
+#line 454 "sysy.y"
+                           {(yyval.node)=NewAst("AddExp",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
 #line 2249 "sysy.tab.cpp"
     break;
 
-  case 110: /* EqExp: EqExp "==" RelExp  */
-#line 424 "sysy.y"
-                          {(yyval.node)=NewAst("EqExp",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
+  case 103: /* AddExp: AddExp "-" MulExp  */
+#line 455 "sysy.y"
+                           {(yyval.node)=NewAst("AddExp",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
 #line 2255 "sysy.tab.cpp"
     break;
 
-  case 111: /* EqExp: EqExp "!=" RelExp  */
-#line 425 "sysy.y"
-                           {(yyval.node)=NewAst("EqExp",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
-#line 2261 "sysy.tab.cpp"
+  case 104: /* RelExp: AddExp  */
+#line 458 "sysy.y"
+               {
+                // $$=NewAst("RelExp",$1->val,yylineno,1,$1);
+        (yyval.node)=(yyvsp[0].node);
+        }
+#line 2264 "sysy.tab.cpp"
     break;
 
-  case 112: /* LAndExp: EqExp  */
-#line 428 "sysy.y"
-              {(yyval.node)=NewAst("LAndExp",(yyvsp[0].node)->val,yylineno,1,(yyvsp[0].node));}
-#line 2267 "sysy.tab.cpp"
+  case 105: /* RelExp: RelExp "<" AddExp  */
+#line 462 "sysy.y"
+                         {(yyval.node)=NewAst("RelExp",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
+#line 2270 "sysy.tab.cpp"
     break;
 
-  case 113: /* LAndExp: LAndExp "&&" EqExp  */
-#line 429 "sysy.y"
-                            {(yyval.node)=NewAst("LAndExp",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
-#line 2273 "sysy.tab.cpp"
+  case 106: /* RelExp: RelExp ">" AddExp  */
+#line 463 "sysy.y"
+                         {(yyval.node)=NewAst("RelExp",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
+#line 2276 "sysy.tab.cpp"
     break;
 
-  case 114: /* LOrExp: LAndExp  */
-#line 432 "sysy.y"
-                {(yyval.node)=NewAst("LOrExp",(yyvsp[0].node)->val,yylineno,1,(yyvsp[0].node));}
-#line 2279 "sysy.tab.cpp"
+  case 107: /* RelExp: RelExp "<=" AddExp  */
+#line 464 "sysy.y"
+                         {(yyval.node)=NewAst("RelExp",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
+#line 2282 "sysy.tab.cpp"
     break;
 
-  case 115: /* LOrExp: LOrExp "||" LAndExp  */
-#line 433 "sysy.y"
-                            {(yyval.node)=NewAst("LOrExp",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
-#line 2285 "sysy.tab.cpp"
+  case 108: /* RelExp: RelExp ">=" AddExp  */
+#line 465 "sysy.y"
+                         {(yyval.node)=NewAst("RelExp",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
+#line 2288 "sysy.tab.cpp"
     break;
 
-  case 116: /* StrExp: STR  */
-#line 436 "sysy.y"
-       {(yyval.node)=NewAst("StrExp",(yyvsp[0].node)->val,yylineno,1,(yyvsp[0].node));}
-#line 2291 "sysy.tab.cpp"
-    break;
-
-  case 117: /* ConstExp: AddExp  */
-#line 439 "sysy.y"
-               {(yyval.node)=NewAst("ConstExp",yylineno,1,(yyvsp[0].node));}
+  case 109: /* EqExp: RelExp  */
+#line 468 "sysy.y"
+               {
+                // $$=NewAst("EqExp",$1->val,yylineno,1,$1);
+        (yyval.node)=(yyvsp[0].node);
+        }
 #line 2297 "sysy.tab.cpp"
     break;
 
-  case 118: /* ConstExp: StrExp  */
-#line 440 "sysy.y"
-                {(yyval.node)=NewAst("ConstExp",yylineno,1,(yyvsp[0].node));}
+  case 110: /* EqExp: EqExp "==" RelExp  */
+#line 472 "sysy.y"
+                          {(yyval.node)=NewAst("EqExp",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
 #line 2303 "sysy.tab.cpp"
     break;
 
+  case 111: /* EqExp: EqExp "!=" RelExp  */
+#line 473 "sysy.y"
+                           {(yyval.node)=NewAst("EqExp",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
+#line 2309 "sysy.tab.cpp"
+    break;
 
-#line 2307 "sysy.tab.cpp"
+  case 112: /* LAndExp: EqExp  */
+#line 476 "sysy.y"
+              {
+                // $$=NewAst("LAndExp",$1->val,yylineno,1,$1);
+        (yyval.node)=(yyvsp[0].node);
+        }
+#line 2318 "sysy.tab.cpp"
+    break;
+
+  case 113: /* LAndExp: LAndExp "&&" EqExp  */
+#line 480 "sysy.y"
+                            {(yyval.node)=NewAst("LAndExp",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
+#line 2324 "sysy.tab.cpp"
+    break;
+
+  case 114: /* LOrExp: LAndExp  */
+#line 483 "sysy.y"
+                {
+        // $$=NewAst("LOrExp",$1->val,yylineno,1,$1);
+        (yyval.node)=(yyvsp[0].node);
+        }
+#line 2333 "sysy.tab.cpp"
+    break;
+
+  case 115: /* LOrExp: LOrExp "||" LAndExp  */
+#line 487 "sysy.y"
+                            {(yyval.node)=NewAst("LOrExp",yylineno,3,(yyvsp[-2].node),(yyvsp[-1].String),(yyvsp[0].node));}
+#line 2339 "sysy.tab.cpp"
+    break;
+
+  case 116: /* StrExp: STR  */
+#line 490 "sysy.y"
+       {
+        // $$=NewAst("StrExp",$1->val,yylineno,1,$1);
+        (yyval.node)=(yyvsp[0].node);
+        }
+#line 2348 "sysy.tab.cpp"
+    break;
+
+  case 117: /* ConstExp: AddExp  */
+#line 496 "sysy.y"
+               {
+                // $$=NewAst("ConstExp",yylineno,1,$1);
+        (yyval.node)=(yyvsp[0].node);
+        }
+#line 2357 "sysy.tab.cpp"
+    break;
+
+  case 118: /* ConstExp: StrExp  */
+#line 500 "sysy.y"
+                {
+                // $$=NewAst("ConstExp",yylineno,1,$1);
+        (yyval.node)=(yyvsp[0].node);
+        }
+#line 2366 "sysy.tab.cpp"
+    break;
+
+
+#line 2370 "sysy.tab.cpp"
 
       default: break;
     }
@@ -2501,5 +2564,5 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 448 "sysy.y"
+#line 511 "sysy.y"
 
