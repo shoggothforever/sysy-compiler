@@ -2,3 +2,7 @@
 /.vscode/**
 *.copy
 **/test*.c
+**/test
+*.zip
+*.png
+*.txt

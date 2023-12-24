@@ -2,6 +2,7 @@
 #include<iostream>
 #include<vector>
 #include<string>
+#include<memory>
 #include "asTree.h"
 using namespace std;
 
@@ -17,23 +18,23 @@ int main(int argc, char** argv){
     if(argc >= 2){
         int i=1;
         while(i<argc){
-                AstTree tree=NewTree(NULL);
+                auto tree=make_unique<astTree>();
                 tree->root=NULL;
-                // while(tree->nodes.size())tree->nodes.pop_back();
                 yylineno=1;
                 if((yyin = fopen(argv[i], "r")) == NULL){
-                printf("Can't open file %s\n", argv[1]);
+                    printf("Can't open file %s\n", argv[1]);
                 return 1;
                 }else{
-                printf("open file %s successfully\n",argv[1]);
+                    printf("open file %s successfully\n",argv[1]);
                 }
-                bool flag=yyparse(tree);
+                bool flag=yyparse(tree.get());
                 if(!flag){
                         parsedFiles.push_back(argv[i]);//解析无误
-                        parsedTrees.push_back(tree);
+                        parsedTrees.push_back(tree.get());
                 }
                 if(tree->root){
-                    // tree->print();
+                    // 遍历AST
+                    tree->print();
                     tree->semantic_check();
                 }
                 fclose(yyin);
@@ -45,11 +46,10 @@ int main(int argc, char** argv){
         }
     }
     else{
-        AstTree tree=NewTree(NULL);
+        auto tree=std::make_unique<astTree>();
         tree->root=nullptr;
-        bool flag=yyparse(tree);
-        tree->print();
-
+        bool flag=yyparse(tree.get());
+        if(!flag)tree->print();
     }
     return 0;
 }

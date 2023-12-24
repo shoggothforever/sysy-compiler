@@ -1,6 +1,7 @@
 #pragma once
 #include <cstring>
 #include<iostream>
+#include<fstream>
 #include<string>
 #include<cstdarg>
 #include<unordered_map>
@@ -11,6 +12,7 @@ using std::vector;
 using std::unordered_set;
 using std::unordered_map;
 using std::pair;
+using std::ofstream;
 
 static unordered_map<string,vector<string>>func_paramas;
 static unordered_map<string,vector<string>>func_params_type;
@@ -66,11 +68,10 @@ public:
     RC rc;
     vector<Ast> nodes;
     astTree()=default;
-    astTree(Ast root):root(root){}
+    astTree(Ast root);
     void print();
     bool semantic_check();
 }* AstTree;
-AstTree NewTree(Ast root);
 /*------------------------------------------SEMANTIC CHECK STRUCTURE-----------------------------------------------*/
 
 

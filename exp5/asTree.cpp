@@ -1,51 +1,88 @@
 #include "asTree.h"
 
 using namespace std;
+ofstream out_file;
+void open_output_file(const std::string &filename)
+{
+  out_file.open(filename);
+  if (!out_file.is_open())
+  {
+    std::cerr << "Error open file:" << filename << std::endl;
+  }
+}
 
+void write_to_output(const std::string &text)
+{
+  std::cout << text;
+  if (out_file.is_open())
+  {
+    out_file << text;
+  }
+}
+astTree::astTree(Ast root):root(root){}
 void astTree:: print(){
         if(! this->root){
             std::cout<<"parse not complete!\n";
             return;
         }
         std::cout<<"pre order print\n";
+        open_output_file("ast_output.txt");
         this->root->print("",1);
-    }
-AstTree NewTree(Ast root){
-    AstTree tree=new astTree(root);
-    return tree;
 }
-class astNode;
+
+
+
+
 astNode::astNode(string name,string val,int line):
 line(line),
 name(name),
 val(val){}
+
 // print: dfs打印语法生成树节点信息
 void astNode::print(string tab,int layer){
+        std::string output_line;
+        string grammar="Grammatical";
+        string lexical="Lexical";
         //需要打印更多节点信息可以把这个if注释掉
         // if (this->childs.size()==0){
-        if(! this->declByFlex){
-            std::cout<<tab<<"[Grammatical unit] layer: ("<<layer<<") line: ("<<this->line<<") name: ("<<this->name<<") val: "<<this->val<<"\n";
+        if(!this->declByFlex){
+            if(this->name!=this->val){
+                output_line =tab + "source: (" + grammar + ") layer: (" + std::to_string(layer) + ") line: (" + std::to_string(this->line) + ") name: " + this->name + " val: " + this->val + "\n";
+            // std::cout<<tab<<"[Grammatical unit] layer: ("<<layer<<") line: ("<<this->line<<") name: ("<<this->name<<") val: "<<this->val<<"\n";
+            }else{
+                output_line = tab + "source: (" + grammar + ") layer: (" + std::to_string(layer) + ") name: (" + this->name + ")\n";
+            }
         }
         else {
-            if(this->name=="Ident")std::cout<<tab<<"[Lexical     unit] layer: ("<<layer<<") line: ("<<this->line<<") name:"<<this->name<<" val:"<<this->val<<"\n";
-            else {std::cout<<tab<<"[Lexical     unit] layer: ("<<layer<<") name:("<<this->name<<")\n";}
-        }
-        // }
-        if(this->childs.size()==1){
-            this->childs[0]->print(tab,layer);
-        }
-        else if(this->childs.size()>1){
-            if(!this->isRoot){
-                for (auto v:this->childs){
-                    v->print(tab+"  ",layer+1);
-                }
+            if(this->name!=this->val){
+                output_line =tab + "source: (" + lexical + ") layer: (" + std::to_string(layer) + ") line: (" + std::to_string(this->line) + ") name: " + this->name + " val: " + this->val + "\n";
+                // std::cout<<tab<<"[Lexical     unit] layer: ("<<layer<<") line: ("<<this->line<<") name: ("<<this->name<<") val: "<<this->val<<"\n";
             }
             else {
-                for (auto v:this->childs){
-                    v->print(tab,layer);
-                }
+                output_line = tab + "source: (" + lexical + ") layer: (" + std::to_string(layer) + ") name: (" + this->name + ")\n";
+                // std::cout<<tab<<"[Lexical     unit] layer: ("<<layer<<") name: ("<<this->name<<")\n";
             }
         }
+        write_to_output(output_line);
+        // }
+        for (auto v:this->childs){
+            v->print(tab+" ",layer+1);
+        }
+        // if(this->childs.size()==1){
+        //     this->childs[0]->print(tab+" ",layer+1);
+        // }
+        // else if(this->childs.size()>1){
+        //     if(!this->isRoot){
+        //         for (auto v:this->childs){
+        //             v->print(tab+" ",layer+1);
+        //         }
+        //     }
+        //     else {
+        //         for (auto v:this->childs){
+        //             v->print(tab,layer);
+        //         }
+        //     }
+        // }
 }
 
 

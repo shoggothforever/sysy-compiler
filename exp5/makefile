@@ -1,8 +1,8 @@
 OBJS=lex.yy.o sysy.tab.o asTree.o main.o
 CC=g++
 CFLAGS=-Wall -g
-NAME="parsecpp"
-CLEAN_LIST=lex.yy.o sysy.tab.o lex.yy.cpp sysy.tab.h sysy.tab.cpp
+NAME="parse"
+CLEAN_LIST=*.o lex.yy.cpp sysy.tab.h sysy.tab.cpp sysy.tab.hpp ast_output ast_output.txt
 $(NAME): $(OBJS)
 	$(CC) $^ -lfl $(CFLAGS) -o $(NAME)
 
