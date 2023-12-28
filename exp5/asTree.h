@@ -13,6 +13,7 @@ using std::unordered_set;
 using std::unordered_map;
 using std::pair;
 using std::ofstream;
+const string OUTPUT_FILE ="ast_output.txt";
 
 static unordered_map<string,vector<string>>func_paramas;
 static unordered_map<string,vector<string>>func_params_type;

@@ -7,7 +7,6 @@
 // 特性1：⼀个SysY程序由单个⽂件构成，⽂件内容对应语法单元为CompUnit，其中必须存在⼀个标识符为main、⽆参数、返回类型为int的FuncDef（函数定义）
 int main(){
     int a;
-    int a;
     return a;
 }
 void test(){

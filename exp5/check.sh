@@ -36,8 +36,8 @@ fi
 
 echo "AST visualization generated successfully."
 
-make clean >/dev/null
-if [ $? -ne 0 ]; then
-    echo "make clean failed"
-    exit 1
-fi
+# make clean >/dev/null
+# if [ $? -ne 0 ]; then
+#     echo "make clean failed"
+#     exit 1
+# fi

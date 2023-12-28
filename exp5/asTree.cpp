@@ -13,7 +13,7 @@ void open_output_file(const std::string &filename)
 
 void write_to_output(const std::string &text)
 {
-  std::cout << text;
+//   std::cout << text;
   if (out_file.is_open())
   {
     out_file << text;
@@ -25,8 +25,7 @@ void astTree:: print(){
             std::cout<<"parse not complete!\n";
             return;
         }
-        std::cout<<"pre order print\n";
-        open_output_file("ast_output.txt");
+        open_output_file(OUTPUT_FILE);
         this->root->print("",1);
 }
 
@@ -159,16 +158,13 @@ void through_ArrayDef(Ast &node){
         int m=node->childs.size();
             for(int j=0;j<m;j++){
                 Ast iter =node->childs[j];
-                while(iter->childs.size()==1){
-                    iter=iter->childs[0];
-                    if(isNUMBER(iter)){
-                        if(iter->childs.size()&&iter->childs[0]->name!="INT"){
-                            if(DEBUG){
-                                ++errorCnt;
-                                printf("[ERR] at Line %d: Array length %s is not INT.\n",iter->line,iter->val.c_str());
-                            }
-                            break;
+                if(isNUMBER(iter)){
+                    if(iter->childs.size()&&iter->childs[0]->name!="INT"){
+                        if(DEBUG){
+                            ++errorCnt;
+                            printf("[ERR] at Line %d: Array length %s is not INT.\n",iter->line,iter->val.c_str());
                         }
+                        break;
                     }
                 }
         }
@@ -180,7 +176,9 @@ void through_VarDefGroup(Ast &node,unordered_map<string,pair<string,string>>&mp 
         through(iter);
         if(isVarDef(iter)){
             for(auto child :iter->childs){
-                if(isArrayDef(child))through_ArrayDef(child);
+                if(isArrayDef(child)){
+                    through_ArrayDef(child);
+                }
             }
         }
         if (isIdent(iter)){
@@ -212,32 +210,32 @@ void through_FuncFparams(const Ast&node,string func_name,bool isDefined){
         if(isFuncFparams(iter))through_FuncFparams(iter,func_name,isDefined);
         if(isFuncFParam(iter)){
             if(!isDefined){
-                printf("function %s add a param %s\n",func_name.c_str(),iter->val.c_str());
+                // printf("function %s add a param %s\n",func_name.c_str(),iter->val.c_str());
                 func_map[func_name].second.push_back(iter->val);
             }
         }
     }
 }
-void through_Block(const Ast &node,const string& type,bool& isLoop,bool &isReturn ){
+
+void through_Block_Inner(const Ast &node,const string& type,bool& isLoop,bool &isReturn,unordered_map<string,pair<string,string>>&mp){
     int n=node->childs.size();
+    if (node->name=="FuncDef"){
+        printf("[ERR] declare function in the function at line : %d",node->line);
+        return;
+    }
     for (int i=0;i<n;i++){
         Ast child=node->childs[i];
         // through(child);
-        // astInfo(child);
             if(isStmt(child)){
-
-                // astChildInfo(child);
                 string func_name;
-                // astInfo(child);
                 for(auto cc:child->childs){
-
                     through(cc);
                     if(isUnaryExp(cc)&&cc->childs.size()==4&&isFuncParamsGroup(cc->childs[2])){
                         func_name=cc->childs[0]->val;
                         vector<string>params;
                         Stringsplit(cc->childs[2]->val,",",params);
                         for(int j=0;j<params.size();j++){
-                            //TODO:
+                            //TODO:函数参数类型与数量检测
                             // if(DEBUG)cout<<"param : "<<params[j]<<" func: "<<func_name<<" size : "<<func_paramas[func_name].size()<<endl;
                         }
                     }
@@ -247,29 +245,39 @@ void through_Block(const Ast &node,const string& type,bool& isLoop,bool &isRetur
             if(isFOR(child)||isWHILE(child)){
                 isLoop=true;
                 continue;
-            }
-            if(isRETURN(child)){
+            }else if(isRETURN(child)){
                 isReturn=true;
                 Ast exp = node->childs[i+1];
                 through(exp);
                 if (exp->name!=type){
                     if(DEBUG){
+                        if(mp.find(exp->val)!=mp.end()){
+                            if (mp[exp->val].first==type)continue;
+                        }
                         ++errorCnt;
                         printf("[ERR] return value %s's type is not the same as function defined %s at line :%d\n",exp->val.c_str(),type.c_str(),exp->line);
                     }
                 }
                 continue;
-            }
-            if((isCONTINUE(child)||isBREAK(child))&&!isLoop){
+            }else if((isCONTINUE(child)||isBREAK(child))&&!isLoop){
                 if(DEBUG){
                     ++errorCnt;
                     printf("[ERR] loop control keywords %s out of loop control block at line: %d\n",child->val.c_str(),child->line);
                 }
             }else if(isCB(child)){
                 isLoop=false;
+            }else if(isVarDecl(child)){
+                // printf("get vardecl ");astChildInfo(child);
+                auto variable=child->childs[1]->val;
+                auto Type=child->childs[0]->val;
+                mp[variable]=make_pair(Type,variable);
             }
-            through_Block(child,type,isLoop,isReturn );
+            through_Block_Inner(child,type,isLoop,isReturn,mp);
     }
+}
+void through_Block(const Ast &node,const string& type,bool& isLoop,bool &isReturn ){
+    unordered_map<string,pair<string,string>>mp;
+    through_Block_Inner(node,type,isLoop,isReturn,mp);
 }
 void through_FuncDef(const Ast &node ){
     int n=node->childs.size();
