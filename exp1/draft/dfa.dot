@@ -1,0 +1,8 @@
+digraph DFA {
+label="(aa)*";
+rankdir=LR;
+node [shape = circle];
+start [shape=point];
+1 -> 2[label = "a"]; 
+2 -> 1[label = "a"]; 
+}

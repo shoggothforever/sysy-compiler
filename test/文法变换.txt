@@ -1,0 +1,9 @@
+S -> Ac | c
+A -> Bb | b
+B -> Sa | a
+$
+E -> ET+ |ET- | T
+T -> TF* | TF/ | F
+F -> (E)|i
+$
+

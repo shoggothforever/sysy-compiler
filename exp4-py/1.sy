@@ -3,10 +3,10 @@ void main(){
     int a ;
     float fa;
     //int b[]; //wrong
-    int c[6]={2,1,0,5,1,4,0,8}; // int ident {'[' exp ']'}
+    int c[]={2,1,0,5,1,4,0,8}; // int ident {'[' exp ']'}
     int n=sizeof(c)/sizeof(a);
     printf("\n");
-    float fc[11]={1.1,2.2}; // int ident {'[' exp ']'}
+    float fc[]={1.1,2.2}; // int ident {'[' exp ']'}
     int d[2]={1,2}; // int ident {'[' exp ']'} = initVal
     int df[2]={1.1,2};
     int e[][2]={c,d};

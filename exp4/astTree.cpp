@@ -37,13 +37,6 @@ void astNode::print(string tab,int layer){
         }
         else{
             for (auto v:this->childs){
-                // if(! v->declByFlex){
-                // std::cout<<tab<<"[Grammatical unit] name:("<<v->name<<")\n";
-                // }
-                // else {
-                //     if(v->name=="Ident")std::cout<<tab<<"[Lexical unit] layer: ("<<layer<<") line: ("<<v->line<<") name:"<<v->name<<" val:"<<v->val<<"\n";
-                //     else {std::cout<<tab<<"[Lexical unit] layer: ("<<layer<<") name:("<<v->name<<")\n";}
-                // }
                 v->print(tab+"  ",layer+1);
             }
         }

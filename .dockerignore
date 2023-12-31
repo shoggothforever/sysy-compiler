@@ -1,0 +1,8 @@
+*.zip
+*/*.zip
+*/*.pdf
+*/*/*.pdf
+*/*.docx
+*/*/*.docx
+tool
+*/.vscode

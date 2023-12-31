@@ -6,7 +6,7 @@ CLEAN_LIST=lex.yy.o sysy.tab.o lex.yy.cpp sysy.tab.h sysy.tab.cpp
 $(NAME): $(OBJS)
 	$(CC) $^ -lfl $(CFLAGS) -o $(NAME)
 
-sysy.tab.cpp sysy.tab.hpp: sysy.y astTree.h
+sysy.tab.cpp sysy.tab.hpp: sysy.y astTree.h astTree.h
 	bison -d --output sysy.tab.cpp $<
 lex.yy.cpp: sysy.l sysy.tab.hpp
 	flex --outfile lex.yy.cpp $<

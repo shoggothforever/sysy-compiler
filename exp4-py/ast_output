@@ -1,0 +1,192 @@
+digraph AST {
+	CompUnit_1 [label="Name:CompUnit
+Val: CompUnit
+Layer: 1"]
+	CompUnit_2 [label="Name:CompUnit
+Val: CompUnit
+Layer: 2"]
+	CompUnit_1 -> CompUnit_2
+	FuncDef_3 [label="Name:FuncDef
+Val: FuncDef
+Layer: 3"]
+	CompUnit_2 -> FuncDef_3
+	BType_4 [label="Name:BType
+Val: INT
+Layer: 4"]
+	FuncDef_3 -> BType_4
+	Ident_4 [label="Name:Ident
+Layer: 4"]
+	FuncDef_3 -> Ident_4
+	L_4 [label="Name:L
+Layer: 4"]
+	FuncDef_3 -> L_4
+	R_4 [label="Name:R
+Layer: 4"]
+	FuncDef_3 -> R_4
+	BLOCK_4 [label="Name:BLOCK
+Val: BLOCK
+Layer: 4"]
+	FuncDef_3 -> BLOCK_4
+	OB_5 [label="Name:OB
+Layer: 5"]
+	BLOCK_4 -> OB_5
+	BlockGroup_5 [label="Name:BlockGroup
+Val: BlockGroup
+Layer: 5"]
+	BLOCK_4 -> BlockGroup_5
+	BlockGroup_6 [label="Name:BlockGroup
+Val: BlockGroup
+Layer: 6"]
+	BlockGroup_5 -> BlockGroup_6
+	BlockGroup_7 [label="Name:BlockGroup
+Val: BlockGroup
+Layer: 7"]
+	BlockGroup_6 -> BlockGroup_7
+	BlockItem_8 [label="Name:BlockItem
+Val: BlockItem
+Layer: 8"]
+	BlockGroup_7 -> BlockItem_8
+	Decl_9 [label="Name:Decl
+Val: Decl
+Layer: 9"]
+	BlockItem_8 -> Decl_9
+	VarDecl_10 [label="Name:VarDecl
+Val: VarDecl
+Layer: 10"]
+	Decl_9 -> VarDecl_10
+	BType_11 [label="Name:BType
+Val: INT
+Layer: 11"]
+	VarDecl_10 -> BType_11
+	VarDefGroup_11 [label="Name:VarDefGroup
+Val: VarDefGroup
+Layer: 11"]
+	VarDecl_10 -> VarDefGroup_11
+	VarDef_12 [label="Name:VarDef
+Val: VarDef
+Layer: 12"]
+	VarDefGroup_11 -> VarDef_12
+	Ident_13 [label="Name:Ident
+Layer: 13"]
+	VarDef_12 -> Ident_13
+	SEMI_11 [label="Name:SEMI
+Layer: 11"]
+	VarDecl_10 -> SEMI_11
+	BlockItem_7 [label="Name:BlockItem
+Val: BlockItem
+Layer: 7"]
+	BlockGroup_6 -> BlockItem_7
+	Stmt_8 [label="Name:Stmt
+Val: Stmt
+Layer: 8"]
+	BlockItem_7 -> Stmt_8
+	LVal_9 [label="Name:LVal
+Val: LVal
+Layer: 9"]
+	Stmt_8 -> LVal_9
+	Ident_10 [label="Name:Ident
+Layer: 10"]
+	LVal_9 -> Ident_10
+	ASSIGN_9 [label="Name:ASSIGN
+Layer: 9"]
+	Stmt_8 -> ASSIGN_9
+	Exp_9 [label="Name:Exp
+Val: Exp
+Layer: 9"]
+	Stmt_8 -> Exp_9
+	AddExp_10 [label="Name:AddExp
+Val: AddExp
+Layer: 10"]
+	Exp_9 -> AddExp_10
+	AddExp_11 [label="Name:AddExp
+Val: AddExp
+Layer: 11"]
+	AddExp_10 -> AddExp_11
+	MulExp_12 [label="Name:MulExp
+Val: MulExp
+Layer: 12"]
+	AddExp_11 -> MulExp_12
+	UnaryExp_13 [label="Name:UnaryExp
+Val: UnaryExp
+Layer: 13"]
+	MulExp_12 -> UnaryExp_13
+	PrimaryExp_14 [label="Name:PrimaryExp
+Val: PrimaryExp
+Layer: 14"]
+	UnaryExp_13 -> PrimaryExp_14
+	LVal_15 [label="Name:LVal
+Val: LVal
+Layer: 15"]
+	PrimaryExp_14 -> LVal_15
+	Ident_16 [label="Name:Ident
+Layer: 16"]
+	LVal_15 -> Ident_16
+	ADD_11 [label="Name:ADD
+Layer: 11"]
+	AddExp_10 -> ADD_11
+	MulExp_11 [label="Name:MulExp
+Val: MulExp
+Layer: 11"]
+	AddExp_10 -> MulExp_11
+	UnaryExp_12 [label="Name:UnaryExp
+Val: UnaryExp
+Layer: 12"]
+	MulExp_11 -> UnaryExp_12
+	PrimaryExp_13 [label="Name:PrimaryExp
+Val: PrimaryExp
+Layer: 13"]
+	UnaryExp_12 -> PrimaryExp_13
+	NUMBER_14 [label="Name:NUMBER
+Val: 1
+Layer: 14"]
+	PrimaryExp_13 -> NUMBER_14
+	INTNUM_15 [label="Name:INTNUM
+Val: 1
+Layer: 15"]
+	NUMBER_14 -> INTNUM_15
+	BlockItem_6 [label="Name:BlockItem
+Val: BlockItem
+Layer: 6"]
+	BlockGroup_5 -> BlockItem_6
+	Stmt_7 [label="Name:Stmt
+Val: Stmt
+Layer: 7"]
+	BlockItem_6 -> Stmt_7
+	RETURN_8 [label="Name:RETURN
+Layer: 8"]
+	Stmt_7 -> RETURN_8
+	Exp_8 [label="Name:Exp
+Val: Exp
+Layer: 8"]
+	Stmt_7 -> Exp_8
+	AddExp_9 [label="Name:AddExp
+Val: AddExp
+Layer: 9"]
+	Exp_8 -> AddExp_9
+	MulExp_10 [label="Name:MulExp
+Val: MulExp
+Layer: 10"]
+	AddExp_9 -> MulExp_10
+	UnaryExp_11 [label="Name:UnaryExp
+Val: UnaryExp
+Layer: 11"]
+	MulExp_10 -> UnaryExp_11
+	PrimaryExp_12 [label="Name:PrimaryExp
+Val: PrimaryExp
+Layer: 12"]
+	UnaryExp_11 -> PrimaryExp_12
+	NUMBER_13 [label="Name:NUMBER
+Val: 1
+Layer: 13"]
+	PrimaryExp_12 -> NUMBER_13
+	INTNUM_14 [label="Name:INTNUM
+Val: 1
+Layer: 14"]
+	NUMBER_13 -> INTNUM_14
+	SEMI_8 [label="Name:SEMI
+Layer: 8"]
+	Stmt_7 -> SEMI_8
+	CB_5 [label="Name:CB
+Layer: 5"]
+	BLOCK_4 -> CB_5
+}

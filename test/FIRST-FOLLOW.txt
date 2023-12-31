@@ -1,0 +1,10 @@
+S→A | a
+A→Bc |ε
+B→d |AS
+
+S→MH | a
+H→LSo |ε
+K→dML | ε
+L→eHf
+M→K | bLM
+

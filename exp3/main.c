@@ -1,14 +1,18 @@
+//一个测试程序
+
 int main(){
 // int a=10;
-int b=0x12;
-int bd=0012;
-int bx=0x012;
-int c=017;
-int d=0x1z;
-int e=08;
-// int f=09;
-int h=085;
+int xnum=0x12;
+int onum=017;
+
+int invalidxnum=0x1z;
+int invalidonum=08;
 ~
+call();
 return 0;
-// int a[]={1};
+int a[]={1};
+}
+
+int call(){
+    //todo
 }

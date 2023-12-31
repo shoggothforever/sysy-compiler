@@ -1,15 +1,3 @@
-#!/bin/bash
-
-# 检查是否提供了文件参数
-if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 <filename>"
-    exit 1
-fi
-make
-if [ $? -ne 0 ]; then
-    echo "make failed "
-    exit 1
-fi
 # 调用parse可执行文件，传入文件参数
 ./parse "$1"
 
@@ -35,9 +23,3 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "AST visualization generated successfully."
-
-# make clean >/dev/null
-# if [ $? -ne 0 ]; then
-#     echo "make clean failed"
-#     exit 1
-# fi

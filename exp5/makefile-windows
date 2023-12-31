@@ -1,0 +1,9 @@
+OBJS=lex.yy.o sysy.tab.o asTree.o main.o
+CC=x86_64-w64-mingw32-g++
+# CFLAGS=-Wall -g
+NAME="parse.exe"
+CLEAN_LIST=*.o lex.yy.cpp sysy.tab.h sysy.tab.cpp sysy.tab.hpp ast_output ast_output.txt
+$(NAME): $(OBJS)
+	$(CC) $(OBJS) -o $(NAME)
+clean:
+	rm -f $(CLEAN_LIST) $(NAME)
